@@ -1,11 +1,12 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
+import VenueRender from "./venue/VenueRender"
 import styles from "../styles/custom.module.css"
 
 export const FetchNft: FC = () => {
   const [nftData, setNftData] = useState(null)
-
+  const [spaceStadiumVenue, setSpaceStadiumVenue] = useState(null)
   const { connection } = useConnection()
   const wallet = useWallet()
   const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet))
@@ -35,6 +36,14 @@ export const FetchNft: FC = () => {
 
     // set state
     setNftData(nftData)
+    console.log('nftData', nftData)
+    //sort the nftData by the atrribute trat_type : "venue" 
+    const spaceStadiumVenue = nftData.filter((nft) => nft.attributes[0].value === "Space Stadium")
+    // sort the nftData by the atrribute trat_type : "seat"
+    const spaceStadiumVenueSortedBySeats = spaceStadiumVenue.sort((a, b) => a.attributes[1].value - b.attributes[1].value)
+    console.log('spaceStadiumVenue', spaceStadiumVenue)
+    setSpaceStadiumVenue(spaceStadiumVenueSortedBySeats)
+
   }
 
   useEffect(() => {
@@ -43,12 +52,21 @@ export const FetchNft: FC = () => {
 
   return (
     <div>
-      {nftData && (
+      {/* Map the Available NFT's in the Ticket Wallet  */}
+      
+      {spaceStadiumVenue && (
         <div className={styles.gridNFT}>
-          {nftData.map((nft, index) => (
+          {/* TODO: */}
+          {/* <VenueRender id="spaceStadium" venue={spaceStadiumVenue} /> */}
+          {spaceStadiumVenue.map((nft, index) => (
             <div key={index}>
-              <ul>{nft.name}</ul>
+              {/* Venue */}
+              <h3>{nft.attributes[0].value}</h3>
+              {/* Seat */}
+              <ul>Seat #{nft.attributes[1].value}</ul>
+              {/* Event */}
               <img src={nft.image} />
+              <ul>{nft.attributes[2].value}</ul>
             </div>
           ))}
         </div>
