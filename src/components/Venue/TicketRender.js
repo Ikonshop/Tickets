@@ -12,7 +12,7 @@ const TicketRender = ({ index, ticket }) => {
     useEffect(() => {
         if (ticket) {
             setTicketData(ticket);
-            console.log('ticketData: ', ticketData.collectionMintAddress.toString())
+            console.log('ticketData: ', ticket)
         }
     }
     , [ticket]);

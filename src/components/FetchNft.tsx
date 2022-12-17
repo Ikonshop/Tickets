@@ -1,7 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
-import VenueRender from "./venue/VenueRender"
+import VenueRender from "./Venue/VenueRender"
 import styles from "../styles/custom.module.css"
 
 export const FetchNft: FC = () => {
@@ -36,22 +36,6 @@ export const FetchNft: FC = () => {
       nftData.push(json)
       
     }
-
-    //metaplex.nfts() available methods
-    // .findAllByOwner({ owner: toPublicKey(fetchWallet)})
-    // .findAllByOwnerAndMint({ owner: toPublicKey(fetchWallet), mint: toPublicKey(fetchWallet)})
-    // .findAllByMint({ mint: toPublicKey(fetchWallet)})
-    // .findAllByMintAndOwner({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet)})
-    // .findAllByMintAndOwnerAndState({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available'})
-    // .findAllByMintAndOwnerAndStateAndEdition({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEdition({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet)})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipation({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet)})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndex({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrint({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrintAndMasterEditionParticipationMaxSupply({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1, masterEditionParticipationMaxSupply: 1})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrintAndMasterEditionParticipationMaxSupplyAndMasterEditionParticipationWinningConfigType({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1, masterEditionParticipationMaxSupply: 1, masterEditionParticipationWinningConfigType: 'participation'})
-    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrintAndMasterEditionParticipationMaxSupplyAndMasterEditionParticipationWinningConfigTypeAndMasterEditionParticipationWinningConfigItem({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1, masterEditionParticipationMaxSupply: 1, masterEditionParticipationWinningConfigType: 'participation', masterEditionParticipationWinningConfigItem: 'participation'})
-
 
     // set state
     setNftData(nftData)
