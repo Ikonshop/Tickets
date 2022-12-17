@@ -1,0 +1,60 @@
+.single_ticket{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(89, 65, 100, 0.434);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 20px;
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.single_ticket:hover{
+    transform: scale(1.05);
+}
+
+.single_ticket .ticket_image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all 0.3s ease-in-out;
+}
+
+.single_ticket:hover .ticket_image{
+    transform: scale(1.1);
+}
+
+.venue_name{
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.seat_number{
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    background-color: antiquewhite;
+    color: red;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 30px;
+}
+
+.event_name{
+
+    font-size: fit-content;
+    font-weight: 500;
+    margin-bottom: 10px;
+}

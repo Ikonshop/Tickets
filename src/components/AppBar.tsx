@@ -1,12 +1,28 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import Link from "next/link"
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
 import { useAutoConnect } from "../contexts/AutoConnectProvider"
+import { RequestAirdrop } from "./RequestAirdrop"
 import NetworkSwitcher from "./NetworkSwitcher"
+import { useWallet, useConnection } from "@solana/wallet-adapter-react"
+import useUserSOLBalanceStore from "../stores/useUserSOLBalanceStore"
+
 
 export const AppBar: FC = (props) => {
   const { autoConnect, setAutoConnect } = useAutoConnect()
+  const wallet = useWallet()
+  const { connection } = useConnection()
+
+  const balance = useUserSOLBalanceStore((s) => s.balance)
+  const { getUserSOLBalance } = useUserSOLBalanceStore()
+
+  useEffect(() => {
+    if (wallet.publicKey) {
+      console.log(wallet.publicKey.toBase58())
+      getUserSOLBalance(wallet.publicKey, connection)
+    }
+  }, [wallet.publicKey, connection, getUserSOLBalance])
 
   return (
     <div>
@@ -98,7 +114,7 @@ export const AppBar: FC = (props) => {
               <a className="btn btn-ghost btn-sm rounded-btn">Home</a>
             </Link>
             <Link href="/display">
-              <a className="btn btn-ghost btn-sm rounded-btn">Available Tix</a>
+              <a className="btn btn-ghost btn-sm rounded-btn">Tickets</a>
             </Link>
             <Link href="/candymachine">
               <a className="btn btn-ghost btn-sm rounded-btn">Candy Machine</a>
@@ -150,6 +166,41 @@ export const AppBar: FC = (props) => {
                   </label>
 
                   <NetworkSwitcher />
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* TEST FUNDS DROPDWON */}
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} className="btn btn-square btn-ghost text-right">
+              Test Funds
+              <svg
+                className="w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 12l9 7l9-7M5"
+                />
+              </svg>
+            </div>
+            <ul
+              tabIndex={0}
+              className="p-2 shadow menu dropdown-content bg-base-100 rounded-box sm:w-52"
+            >
+              <li>
+                <div className="form-control">
+                  <label className="cursor-pointer label">
+                    {wallet && <p>SOL Balance: {(balance || 0).toLocaleString()}</p>}
+                  </label>
+
+                  <RequestAirdrop />
                 </div>
               </li>
             </ul>

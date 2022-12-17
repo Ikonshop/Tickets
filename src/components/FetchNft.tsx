@@ -23,7 +23,9 @@ export const FetchNft: FC = () => {
       .nfts()
       .findAllByOwner({ owner: toPublicKey(fetchWallet)})
       .run()
-      
+    //find all the owners of the mint address EYsRQKYUrGStgHPpf41cnx4qa5UiHyf5FHtrEJhtVS7F
+
+    
     console.log('fetched nfts',nfts)
     
     // fetch off chain metadata for each NFT
@@ -32,7 +34,24 @@ export const FetchNft: FC = () => {
       let fetchResult = await fetch(nfts[i].uri)
       let json = await fetchResult.json()
       nftData.push(json)
+      
     }
+
+    //metaplex.nfts() available methods
+    // .findAllByOwner({ owner: toPublicKey(fetchWallet)})
+    // .findAllByOwnerAndMint({ owner: toPublicKey(fetchWallet), mint: toPublicKey(fetchWallet)})
+    // .findAllByMint({ mint: toPublicKey(fetchWallet)})
+    // .findAllByMintAndOwner({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet)})
+    // .findAllByMintAndOwnerAndState({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available'})
+    // .findAllByMintAndOwnerAndStateAndEdition({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEdition({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet)})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipation({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet)})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndex({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrint({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrintAndMasterEditionParticipationMaxSupply({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1, masterEditionParticipationMaxSupply: 1})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrintAndMasterEditionParticipationMaxSupplyAndMasterEditionParticipationWinningConfigType({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1, masterEditionParticipationMaxSupply: 1, masterEditionParticipationWinningConfigType: 'participation'})
+    // .findAllByMintAndOwnerAndStateAndEditionAndMasterEditionAndMasterEditionParticipationAndMasterEditionParticipationSafetyDepositBoxIndexAndMasterEditionParticipationPrintAndMasterEditionParticipationMaxSupplyAndMasterEditionParticipationWinningConfigTypeAndMasterEditionParticipationWinningConfigItem({ mint: toPublicKey(fetchWallet), owner: toPublicKey(fetchWallet), state: 'available', edition: 1, masterEdition: toPublicKey(fetchWallet), masterEditionParticipation: toPublicKey(fetchWallet), masterEditionParticipationSafetyDepositBoxIndex: 1, masterEditionParticipationPrint: 1, masterEditionParticipationMaxSupply: 1, masterEditionParticipationWinningConfigType: 'participation', masterEditionParticipationWinningConfigItem: 'participation'})
+
 
     // set state
     setNftData(nftData)
@@ -55,20 +74,10 @@ export const FetchNft: FC = () => {
       {/* Map the Available NFT's in the Ticket Wallet  */}
       
       {spaceStadiumVenue && (
-        <div className={styles.gridNFT}>
+        <div >
           {/* TODO: */}
-          {/* <VenueRender id="spaceStadium" venue={spaceStadiumVenue} /> */}
-          {spaceStadiumVenue.map((nft, index) => (
-            <div key={index}>
-              {/* Venue */}
-              <h3>{nft.attributes[0].value}</h3>
-              {/* Seat */}
-              <ul>Seat #{nft.attributes[1].value}</ul>
-              {/* Event */}
-              <img src={nft.image} />
-              <ul>{nft.attributes[2].value}</ul>
-            </div>
-          ))}
+          <VenueRender id="spaceStadium" title="Space Stadium" venue={spaceStadiumVenue} />
+          
         </div>
       )}
     </div>

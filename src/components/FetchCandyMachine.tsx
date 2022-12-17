@@ -5,7 +5,7 @@ import { FC, useEffect, useState } from "react"
 import styles from "../styles/custom.module.css"
 
 export const FetchCandyMachine: FC = () => {
-  const [candyMachineAddress, setCandyMachineAddress] = useState("2p2yQZLx9qYDzNnULKsxXm4dK9qYeaCdNsALCLLFEQxN")
+  const [candyMachineAddress, setCandyMachineAddress] = useState("AbP2eDumMD3fcfZeZVSa9xzRq2Y2uEaFnJ4xzzTu4TjJ")
   const [candyMachineData, setCandyMachineData] = useState(null)
   const [pageItems, setPageItems] = useState(null)
   const [page, setPage] = useState(1)
@@ -25,12 +25,14 @@ export const FetchCandyMachine: FC = () => {
         .run()
 
       setCandyMachineData(candyMachine)
+      console.log(candyMachine)
     } catch (e) {
       alert("Please submit a valid CMv2 address.")
     }
   }
 
   const getPage = async (page, perPage) => {
+    console.log("Fetching page", candyMachineData)
     const pageItems = candyMachineData.items.slice(
       (page - 1) * perPage,
       page * perPage
@@ -39,9 +41,11 @@ export const FetchCandyMachine: FC = () => {
     // fetch metadata of NFTs for page
     let nftData = []
     for (let i = 0; i < pageItems.length; i++) {
+      
       let fetchResult = await fetch(pageItems[i].uri)
       let json = await fetchResult.json()
       nftData.push(json)
+      
     }
 
     // set state
