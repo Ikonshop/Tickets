@@ -51,7 +51,7 @@ export const FetchNft: FC = () => {
 
   useEffect(() => {
     fetchNfts()
-  }, [wallet])
+  }, [])
 
   return (
     <div>
@@ -60,7 +60,7 @@ export const FetchNft: FC = () => {
       {spaceStadiumVenue && (
         <div >
           {/* TODO: */}
-          <VenueRender id="spaceStadium" title="Space Stadium" venue={spaceStadiumVenue} />
+          <VenueRender id="spaceStadium" event="Farza and the boyz" title="Space Stadium" venue={spaceStadiumVenue} />
           
         </div>
       )}

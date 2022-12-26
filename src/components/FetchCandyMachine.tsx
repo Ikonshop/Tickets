@@ -23,6 +23,7 @@ export const FetchCandyMachine: FC = () => {
         .candyMachines()
         .findByAddress({ address: new PublicKey(candyMachineAddress) })
         .run()
+        
 
       setCandyMachineData(candyMachine)
       console.log(candyMachine)
@@ -83,7 +84,7 @@ export const FetchCandyMachine: FC = () => {
 
   return (
     <div>
-      <input
+      {/* <input
         type="text"
         className="form-control block mb-2 w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none text-center"
         placeholder="Enter Candy Machine v2 Address"
@@ -94,10 +95,11 @@ export const FetchCandyMachine: FC = () => {
         onClick={fetchCandyMachine}
       >
         Fetch
-      </button>
+      </button> */}
 
       {candyMachineData && (
         <div className="flex flex-col items-center justify-center p-5">
+          <ul>Event: Farza and the boyz @ Space Stadium</ul>
           <ul>Candy Machine Address: {candyMachineData.address.toString()}</ul>
         </div>
       )}
@@ -105,8 +107,8 @@ export const FetchCandyMachine: FC = () => {
       {pageItems && (
         <div>
           <div className={styles.gridNFT}>
-            {pageItems.map((nft) => (
-              <div>
+            {pageItems.map((nft, index) => (
+              <div key={index}>
                 <ul>{nft.name}</ul>
                 <img src={nft.image} />
               </div>

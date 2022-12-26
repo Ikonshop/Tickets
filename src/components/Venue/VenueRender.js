@@ -5,7 +5,7 @@ import styles from './styles/VenueRender.module.css';
 
 
 
-const VenueRender = ({ id, title, venue }) => {
+const VenueRender = ({ id, event, title, venue }) => {
     const [venueData, setVenueData] = useState(null);
     const [showTickets, setShowTickets] = useState(false);
     const venueImg = `/${id}.jpg`
@@ -45,8 +45,11 @@ const VenueRender = ({ id, title, venue }) => {
             <div 
                 // className={styles.venue_img_container}
                 onClick={() => setShowTickets(!showTickets)}
-                style={{display: showTickets ? 'none' : 'block'}}
+                style={{cursor:"pointer", display: showTickets ? 'none' : 'block'}}
             >
+                <div className={styles.venue_name}>
+                    Event: {event}
+                </div>
                 <div className={styles.venue_name}>
                     Venue: {title}
                 </div>
