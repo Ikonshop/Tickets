@@ -45,7 +45,7 @@ const createTransaction = async (req, res) => {
   
       const sellerAddress = owner;
       const sellerPublicKey = new PublicKey(sellerAddress);
-
+      const ticketAddress = new PublicKey(req.ticketAddress)
    
       const itemPrice = price;
   
@@ -61,7 +61,7 @@ const createTransaction = async (req, res) => {
         "confirmed"
       );
       const shippingCost = 0;
-      
+      const secretKey = process.env.NEXT_PUBLIC_SHOP_SECRET_KEY;
   
       console.log("itemPrice", itemPrice);
       if (!itemPrice) {
@@ -69,8 +69,8 @@ const createTransaction = async (req, res) => {
           message: "Item not found. please check item ID",
         });
       }
-      const usdcMint = await getMint(connection, usdcAddress);
-      const bigAmount = BigNumber(itemPrice);
+      const ticketMint = await getMint(connection, usdcAddress);
+      const bigAmount = 1;
       //console.log 3.5% of the total price
       //parseFloat to 2 decimals
       const sellerCut = parseInt(((bigAmount.toNumber() * 10 ** (await usdcMint).decimals)));
@@ -82,22 +82,13 @@ const createTransaction = async (req, res) => {
         feePayer: buyerPublicKey,
       });
       
-      const transferInstruction = SystemProgram.transfer({
-        fromPubkey: buyerPublicKey,
-        // Lamports are the smallest unit of SOL, like Gwei with Ethereum
-        lamports: (bigAmount.multipliedBy(LAMPORTS_PER_SOL).toNumber()), 
-        toPubkey: sellerPublicKey,
-        });
-
-        // const transferTwo = SystemProgram.transfer({
-        //   fromPubkey: buyerPublicKey,
-        //   lamports: (bigAmount.multipliedBy(LAMPORTS_PER_SOL).toNumber() * .2),
-        //   toPubkey: secondPublicKey,
-        // })
-
-
-        // console.log("these are the instructions ->", transferInstruction)
-
+      const transferInstruction = createTransferCheckedInstruction(
+        owner, 
+        ticketAddress,     // This is the address of the token we want to transfer
+        buyerAddy, 
+        secretKey, 
+        1, 
+      );
         transferInstruction.keys.push({
           pubkey: new PublicKey(orderID),
           isSigner: false,
