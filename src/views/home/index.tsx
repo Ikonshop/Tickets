@@ -1,7 +1,7 @@
 // Next, React
 import { FC, useEffect, useState } from "react"
 import Link from "next/link"
-
+import { TestTickets } from "components/TestTickets/TestTickets"
 // Wallet
 import { useWallet, useConnection } from "@solana/wallet-adapter-react"
 
@@ -30,17 +30,19 @@ export const HomeView: FC = ({}) => {
     <div className="md:hero mx-auto p-4">
       <div className="md:hero-content flex flex-col">
         <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-          Sol Tickets{" "}
+          <img
+            className="inline-block w-80 h-80 mr-2"
+            src="/logoGrBg.svg"
+            alt="logo"
+          />
           <span className="text-sm font-normal align-top text-slate-700">
             v{pkg.version}
           </span>
         </h1>
-        <h4 className="md:w-full text-center text-slate-300 my-2">
-          <p>NFTickets Marketplace</p>
-          Buy tickets with transparency, security, and perks.
-
-          
-        </h4>
+        <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+          Buy and Sell tickets with transparency
+        </h1>
+        <TestTickets />
         <div className="max-w-md mx-auto mockup-code bg-primary p-6 my-2">
           <h4 className="text-center text-slate-300 my-2">
             <p>How it works</p>
@@ -56,9 +58,9 @@ export const HomeView: FC = ({}) => {
           </pre>
         </div>
         <div className="text-center">
-          Events have the ability to create a unique experience
-          by offering perks via airdrops to ticket holders. <br />
-          This allows events to provide merchandise, access to exclusive content, and more.
+          Events use NFTickets to create a unique experience
+          to ticket holders by attaching upgrades directly to their ticket <br />
+          This allows events to provide merchandise, food drinks, and more.
         </div>
       </div>
     </div>

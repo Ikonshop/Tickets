@@ -17,7 +17,7 @@ export const FetchNft: FC = () => {
     }
     
     //Wallet address to fetch NFTs from
-    const fetchWallet = 'DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ'
+    const fetchWallet = 'AKMpGNrueQR97mwKy8CMUK1tTF2peVmPPAnzR8D9JjcE'
 
     const nfts = await metaplex
       .nfts()
