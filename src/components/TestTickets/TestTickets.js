@@ -5,7 +5,7 @@ import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundati
 import { PublicKey } from "@solana/web3.js"
 import Buy from "components/Buy"
 
-export const TestTickets: FC = () => {
+export const TestTickets= () => {
     const [testTickets, setTestTickets] = useState(null)
     const [loading, setLoading] = useState(true)
     const { connection } = useConnection()
@@ -27,17 +27,21 @@ export const TestTickets: FC = () => {
             const nfts = await metaplex
               .nfts()
               .findAllByOwner({ owner: toPublicKey(fetchWallet)})
-              .run()
             //find all the owners of the mint address EYsRQKYUrGStgHPpf41cnx4qa5UiHyf5FHtrEJhtVS7F
+            
         
+            console.log('fetched nfts',nfts[0])
             
-            console.log('fetched nfts',nfts)
+            //get the ticket mint address
             
+
             // fetch off chain metadata for each NFT
             let nftData = []
             for (let i = 0; i < nfts.length; i++) {
               let fetchResult = await fetch(nfts[i].uri)
               let json = await fetchResult.json()
+              console.log('json', json)
+              console.log('address of nft is ', nfts[i].mintAddress.toString())
               nftData.push(
                 {
                     mintaddress: nfts[i].mintAddress.toString(),

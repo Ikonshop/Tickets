@@ -22,7 +22,6 @@ export const FetchNft: FC = () => {
     const nfts = await metaplex
       .nfts()
       .findAllByOwner({ owner: toPublicKey(fetchWallet)})
-      .run()
     //find all the owners of the mint address EYsRQKYUrGStgHPpf41cnx4qa5UiHyf5FHtrEJhtVS7F
 
     
