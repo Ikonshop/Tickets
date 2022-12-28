@@ -27,7 +27,7 @@ export const AppBar: FC = (props) => {
   return (
     <div>
       {/* NavBar / Header */}
-      <div className="navbar flex flex-row md:mb-2 shadow-lg bg-neutral text-neutral-content">
+      <div className="navbar flex flex-row md:mb-2 shadow-lg bg-gradient-to-tr from-[#21B6A8] to-[#A3EBB1] text-neutral-content">
         <div className="navbar-start">
           <label htmlFor="my-drawer" className="btn btn-square btn-ghost">
             <svg

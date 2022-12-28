@@ -57,7 +57,7 @@ const createTransaction = async (req, res) => {
       const endpoint = clusterApiUrl(network);
       const block_connection = new Connection(endpoint, "confirmed");
       const connection = new Connection(
-        "https://solana-mainnet.g.alchemy.com/v2/7eej6h6KykaIT45XrxF6VHqVVBeMQ3o7",
+        "https://solana-devnet.g.alchemy.com/v2/1wbDr7WOHCshS1G8e8W9oSDtZdM9We4f",
         "confirmed"
       );
       const shippingCost = 0;
@@ -69,11 +69,11 @@ const createTransaction = async (req, res) => {
           message: "Item not found. please check item ID",
         });
       }
-      const usdcMint = await getMint(connection, usdcAddress);
+      // const usdcMint = await getMint(connection, usdcAddress);
       const bigAmount = BigNumber(itemPrice);
       //console.log 3.5% of the total price
       //parseFloat to 2 decimals
-      const sellerCut = parseInt(((bigAmount.toNumber() * 10 ** (await usdcMint).decimals)));
+      // const sellerCut = parseInt(((bigAmount.toNumber() * 10 ** (await usdcMint).decimals)));
 
       const { blockhash } = await block_connection.getLatestBlockhash("finalized");
   

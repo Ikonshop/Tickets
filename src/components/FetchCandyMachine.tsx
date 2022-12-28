@@ -1,16 +1,18 @@
-import { useConnection } from "@solana/wallet-adapter-react"
+import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey } from "@solana/web3.js"
-import { Metaplex } from "@metaplex-foundation/js"
+import { Metaplex, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
 import styles from "../styles/custom.module.css"
 
 export const FetchCandyMachine: FC = () => {
   const [candyMachineAddress, setCandyMachineAddress] = useState("AYojeY24i4SXE82jZWZHsMsUD29mHg2zzBZWuETCdqti")
   const [candyMachineData, setCandyMachineData] = useState(null)
+  const [ticketsInPocket, setTicketsInPocket] = useState(null)
   const [pageItems, setPageItems] = useState(null)
   const [page, setPage] = useState(1)
 
   const { connection } = useConnection()
+  const wallet = useWallet()
   const metaplex = Metaplex.make(connection)
 
   const fetchCandyMachine = async () => {
@@ -19,21 +21,32 @@ export const FetchCandyMachine: FC = () => {
 
     // fetch candymachine data
     try {
-      const candyMachine = await metaplex
-        .candyMachines()
-        .findByAddress({ address: new PublicKey(candyMachineAddress) })
+     const nfts = await metaplex
+      .nfts()
+      .findAllByOwner({ owner: wallet.publicKey})
+      console.log('fetched nfts',nfts)
+    
+      // fetch off chain metadata for each NFT
+      let nftData = []
+      for (let i = 0; i < nfts.length; i++) {
+        let fetchResult = await fetch(nfts[i].uri)
+        let json = await fetchResult.json()
+        nftData.push(json)
         
-
-      setCandyMachineData(candyMachine)
-      console.log(candyMachine)
+      }
+  
+      // set state
+      setTicketsInPocket(nftData)
+      console.log('nftData', nftData)
     } catch (e) {
-      alert("Please submit a valid CMv2 address.")
+      // alert("Please submit a valid CMv2 address.")
+      console.log("Please submit a valid CMv2 address.")
     }
   }
 
   const getPage = async (page, perPage) => {
-    console.log("Fetching page", candyMachineData)
-    const pageItems = candyMachineData.items.slice(
+    console.log("Fetching page", ticketsInPocket)
+    const pageItems = ticketsInPocket.slice(
       (page - 1) * perPage,
       page * perPage
     )
@@ -61,8 +74,8 @@ export const FetchCandyMachine: FC = () => {
   }
 
   const next = async () => {
-    if (page + 1 > candyMachineData.items.length) {
-      setPage(candyMachineData.items.length)
+    if (page + 1 > ticketsInPocket.length) {
+      setPage(ticketsInPocket.length)
     } else {
       setPage(page + 1)
     }
@@ -75,11 +88,11 @@ export const FetchCandyMachine: FC = () => {
   
   // fetch metadata for NFTs when page or candy machine changes
   useEffect(() => {
-    if (!candyMachineData) {
+    if (!ticketsInPocket) {
       return
     }
     getPage(page, 9)
-  }, [candyMachineData, page])
+  }, [ticketsInPocket, page])
 
   return (
     <div>
@@ -103,10 +116,13 @@ export const FetchCandyMachine: FC = () => {
         </div>
       )}
 
-      {pageItems && (
+      {ticketsInPocket?.length > 1000 ? (
         <div>
+          <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+          Tickets in your pocket
+          </h1>
           <div className={styles.gridNFT}>
-            {pageItems.map((nft, index) => (
+            {ticketsInPocket.map((nft, index) => (
               <div key={index}>
                 <ul>{nft.name}</ul>
                 <img src={nft.image} />
@@ -125,6 +141,20 @@ export const FetchCandyMachine: FC = () => {
           >
             Next
           </button>
+        </div>
+      ) : (
+
+        <div className="flex flex-col items-center justify-center p-5">
+          <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+          No Tickets in your pocket yet!
+        </h1>
+        {/* display a container that will show two images in a row */}
+        <div className="flex flex-row itemx-center justify-center">
+
+          <img className="inline-block w-80 h-80 m-10" src="/pocketWireA.png" />
+          <img className="inline-block w-80 h-80 m-10" src="/pocketWireB.png" />
+
+        </div>
         </div>
       )}
     </div>

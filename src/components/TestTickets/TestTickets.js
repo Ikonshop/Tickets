@@ -17,11 +17,9 @@ export const TestTickets= () => {
     useEffect(() => {
         async function fetchNFTs() {
             setLoading(true)
-            console.log('fetching nfts')
             if (!wallet.connected) {
               return
             }
-            console.log('fetching nfts')
             //Wallet address to fetch NFTs from
         
             const nfts = await metaplex
@@ -29,9 +27,7 @@ export const TestTickets= () => {
               .findAllByOwner({ owner: toPublicKey(fetchWallet)})
             //find all the owners of the mint address EYsRQKYUrGStgHPpf41cnx4qa5UiHyf5FHtrEJhtVS7F
             
-        
-            console.log('fetched nfts',nfts[0])
-            
+                
             //get the ticket mint address
             
 
@@ -67,16 +63,19 @@ export const TestTickets= () => {
                 <div className={styles.testTicketCard} key={index}>
                     <img src={ticket.image} alt={ticket.name} />
                     <div className={styles.testTicketInfo}>
+                        <div className={styles.testTicketLeft}>
                         <h3>SEAT: {ticket.attributes[2].value}</h3>
                         <p>COST: {ticket.attributes[3].value} SOL</p>
-                        
-                        <Buy
-                            ticketAddress={ticket.mintaddress}
-                            buyer={wallet.publicKey?.toString()}
-                            token="SOL"
-                            price={ticket.attributes[3].value}
-                            owner={fetchWallet}
-                        />
+                        </div>
+                        <div className={styles.testTicketRight}>
+                            <Buy
+                                ticketAddress={ticket.mintaddress}
+                                buyer={wallet.publicKey?.toString()}
+                                token="SOL"
+                                price={ticket.attributes[3].value}
+                                owner={fetchWallet}
+                            />
+                        </div>
                     </div>
                 </div>
             ))}

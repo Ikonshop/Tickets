@@ -57,10 +57,15 @@ export const FetchNft: FC = () => {
       {/* Map the Available NFT's in the Ticket Wallet  */}
       
       {spaceStadiumVenue && (
-        <div >
+        <div className="flex flex-col items-center justify-center">
           {/* TODO: */}
           <VenueRender id="spaceStadium" event="Farza and the boyz" title="Space Stadium" venue={spaceStadiumVenue} />
-          
+          <div className="flex flex-row itemx-center justify-center">
+
+          <img className="inline-block w-80 h-80 m-10" src="/pocketWireA.png" />
+          <img className="inline-block w-80 h-80 m-10" src="/pocketWireB.png" />
+
+        </div>
         </div>
       )}
     </div>

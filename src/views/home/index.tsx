@@ -29,28 +29,22 @@ export const HomeView: FC = ({}) => {
   return (
     <div className="md:hero mx-auto p-4">
       <div className="md:hero-content flex flex-col">
-        <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-          <img
+          {/* <img
             className="inline-block w-80 h-40 mr-2"
             src="/logoGrBg.svg"
             alt="logo"
-          />
-          <span className="text-sm font-normal align-top text-slate-700">
-            v{pkg.version}
-          </span>
-        </h1>
+          /> */}
         <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
           Buy and Sell tickets with transparency
         </h1>
-        
+        <div className="text-2xl md:pl-6 font-bold text-black text-center">
+          Events use NFTickets to send upgrades (like free merch) directly to their ticket. <br />
+          Buyers can see Ticket sales history and if value is marked up.
+        </div>
         <div >
           <TestTickets />
         </div>
-        <div className="text-center">
-          Events use NFTickets to create a unique experience
-          to ticket holders by attaching upgrades directly to their ticket <br />
-          This allows events to provide merchandise, food drinks, and more.
-        </div>
+        
       </div>
     </div>
   )

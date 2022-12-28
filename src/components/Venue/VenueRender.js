@@ -45,7 +45,7 @@ const VenueRender = ({ id, event, title, venue }) => {
             <div 
                 // className={styles.venue_img_container}
                 onClick={() => setShowTickets(!showTickets)}
-                style={{cursor:"pointer", display: showTickets ? 'none' : 'block'}}
+                style={{color: "black", cursor:"pointer", display: showTickets ? 'none' : 'block'}}
             >
                 <div className={styles.venue_name}>
                     Event: {event}
