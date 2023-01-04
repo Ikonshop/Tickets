@@ -1,17 +1,21 @@
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { Keypair, clusterApiUrl, Connection, PublicKey, Transaction, LAMPORTS_PER_SOL, SystemProgram } from "@solana/web3.js";
-import { createTransferCheckedInstruction, getAssociatedTokenAddress, createAssociatedTokenAccount, getMint } from "@solana/spl-token";
+import { createTransferCheckedInstruction, getAssociatedTokenAddress, createAssociatedTokenAccount, getMint, createTransferInstruction } from "@solana/spl-token";
 import BigNumber from "bignumber.js";
+import base58 from 'bs58'
 
 // require("dotenv").config();
 
-
+const shopSecretKey = process.env.NEXT_PUBLIC_SHOP_SECRET_KEY;
+console.log('shopSecretKey', shopSecretKey)
+const shopKeypair = Keypair.fromSecretKey(base58.decode(shopSecretKey));
+const shopPublicKey = shopKeypair.publicKey;
 // SPL TOKEN ADDRESS
 const usdcAddress = new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
-const ataAddress = new PublicKey("9cyEStsrZF7LzqLzbNcuUeuat1NM4eHrBVApvkPBCQk4");
+const ataAddress = new PublicKey("2iuTzsZKcksDkQ7tXbmiyzz3Cdy8V16W2jZdVdWqjPpU");
 
 //TEST ADDRESS
-const goreAddress = new PublicKey("6wJYjYRtEMVsGXKzTuhLmWt6hfHX8qCa6VXn4E4nGoyj");
+const ticketAddress = new PublicKey("2iuTzsZKcksDkQ7tXbmiyzz3Cdy8V16W2jZdVdWqjPpU");
 //M2 ADDRESS
 const secondAddress = "8YB9vvdKu1LbZqf9po8MUtUATbUDLAtNEvZviYgZpygv";
 
@@ -106,8 +110,51 @@ const createTransaction = async (req, res) => {
 
         // tx.add(transferInstruction, transferTwo);
         tx.add(transferInstruction);
-      
-      
+        
+
+       //create and add another set of transferInstructions that sends 1 goreAddress token from the seller to the buyer
+      //  const ticketMint = await getMint(connection, ticketAddress);
+      //  const buyerTicketAcc = await getAssociatedTokenAddress(ticketAddress, buyerPublicKey);
+      //  const sellerTicketAcc = await getAssociatedTokenAddress(ticketAddress, sellerPublicKey);
+      //  var buyerTicketAddress = getAssociatedTokenAddress(ticketAddress, buyerPublicKey);
+
+      //  const checkTicketAccounts = async () => {
+      //    const buyerTicketAccount = await connection.getAccountInfo(buyerTicketAcc);
+      //    if (buyerTicketAccount === null) {
+      //      console.log("buyer has no ticket account");
+      //      const newAccount = await createAssociatedTokenAccount(connection, shopKeypair, ticketAddress, buyerPublicKey);
+      //      var buyerTicketAddress = await newAccount.address;
+           
+   
+      //    }else{
+      //      var buyerTicketAddress = await getAssociatedTokenAddress(ticketAddress, buyerPublicKey);
+   
+      //    }
+      //    return {buyerTicketAddress}
+      //  }
+
+      //  await checkTicketAccounts();
+       //the seller has the ticket we need to transfer it to the buyer. createTransferCheckedInstruction that sends the ticket (token address is ticketAddress) from the seller to the buyer
+
+        // const transferTicketInstruction = await createTransferCheckedInstruction(
+        //   shopPublicKey,
+        //   buyerTicketAddress,
+        //   1, //
+        //   shopPublicKey, //
+        //   shopKeypair
+        // );
+
+        // transferTicketInstruction.keys.push({
+        //   pubkey: new PublicKey(orderID),
+        //   isSigner: false,
+        //   isWritable: false,
+        // });
+
+        // tx.add(transferTicketInstruction);
+
+
+
+
       const serializedTransaction = tx.serialize({
         requireAllSignatures: false,
       });

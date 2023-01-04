@@ -2,18 +2,61 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey } from "@solana/web3.js"
 import { Metaplex, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
+import TicketDetails from "../components/TicketDetails/TicketDetails"
+import Button from "../components/Utils/Button"
 import styles from "../styles/custom.module.css"
 
 export const FetchCandyMachine: FC = () => {
+  const [loading, setLoading] = useState(true)
   const [candyMachineAddress, setCandyMachineAddress] = useState("AYojeY24i4SXE82jZWZHsMsUD29mHg2zzBZWuETCdqti")
   const [candyMachineData, setCandyMachineData] = useState(null)
   const [ticketsInPocket, setTicketsInPocket] = useState(null)
   const [pageItems, setPageItems] = useState(null)
   const [page, setPage] = useState(1)
 
+  const [selectedTicket, setSelectedTicket] = useState(null)
+  const [showTicketDetails, setShowTicketDetails] = useState(false)
+
   const { connection } = useConnection()
   const wallet = useWallet()
   const metaplex = Metaplex.make(connection)
+
+  const renderTicketDetails = (nft) => {
+    console.log('address', nft.address)
+    console.log('nft', ...nft.json.attributes)
+    const {name, description, image, symbol, attributes} = nft.json
+    console.log('attributes', attributes)
+    //VESPADT
+    const venue = attributes[0].value
+    const event = attributes[1].value
+    const seat = attributes[2].value
+    const price =  attributes[3].value
+    const accessories = attributes[4].value
+    const date = attributes[5].value
+    const time = attributes[6].value
+
+    return(
+      <>
+        <Button title="close" onClick={() => setShowTicketDetails(false)} />
+        <TicketDetails 
+          address={nft.address} 
+          name={name}
+          description={description}
+          image={image}
+          symbol={symbol}
+          venue={venue}
+          event={event}
+          seat={seat}
+          price={price}
+          accessories={accessories}
+          date={date}
+          time={time}
+        />
+      </>
+    )
+  }
+
+    // <TicketDetails address={address}/>
 
   const fetchCandyMachine = async () => {
     // Set page to 1 - we wanna be at the first page whenever we fetch a new Candy Machine
@@ -31,13 +74,19 @@ export const FetchCandyMachine: FC = () => {
       for (let i = 0; i < nfts.length; i++) {
         let fetchResult = await fetch(nfts[i].uri)
         let json = await fetchResult.json()
-        nftData.push(json)
+        //filter for only tickets with the symbol STX
+        if (json.symbol === 'STX') {
+          console.log('nft json', json)
+          // push the json and the nfts[i].address to the nftData array
+          nftData.push({json, address: nfts[i].address.toString()})
+        }
         
       }
   
       // set state
       setTicketsInPocket(nftData)
       console.log('nftData', nftData)
+      setLoading(false)
     } catch (e) {
       // alert("Please submit a valid CMv2 address.")
       console.log("Please submit a valid CMv2 address.")
@@ -96,27 +145,8 @@ export const FetchCandyMachine: FC = () => {
 
   return (
     <div>
-      {/* <input
-        type="text"
-        className="form-control block mb-2 w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none text-center"
-        placeholder="Enter Candy Machine v2 Address"
-        onChange={(e) => setCandyMachineAddress(e.target.value)}
-      />
-      <button
-        className="px-8 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ..."
-        onClick={fetchCandyMachine}
-      >
-        Fetch
-      </button> */}
-
-      {candyMachineData && (
-        <div className="flex flex-col items-center justify-center p-5">
-          <ul>Event: Farza and the boyz @ Space Stadium</ul>
-          <ul>Candy Machine Address: {candyMachineData.address.toString()}</ul>
-        </div>
-      )}
-
-      {ticketsInPocket?.length > 1000 ? (
+      {loading && <div>Loading...</div>}
+      {ticketsInPocket?.length > 0 && !showTicketDetails && (
         <div>
           <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
           Tickets in your pocket
@@ -124,8 +154,9 @@ export const FetchCandyMachine: FC = () => {
           <div className={styles.gridNFT}>
             {ticketsInPocket.map((nft, index) => (
               <div key={index}>
-                <ul>{nft.name}</ul>
-                <img src={nft.image} />
+                <ul>{nft.json.name}</ul>
+                <img src={nft.json.image} />
+                <Button title="View" onClick={() => {setSelectedTicket(nft), setShowTicketDetails(true)}} />
               </div>
             ))}
           </div>
@@ -142,7 +173,8 @@ export const FetchCandyMachine: FC = () => {
             Next
           </button>
         </div>
-      ) : (
+      )}
+      {ticketsInPocket?.length < 1 && (
 
         <div className="flex flex-col items-center justify-center p-5">
           <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
@@ -157,6 +189,7 @@ export const FetchCandyMachine: FC = () => {
         </div>
         </div>
       )}
+      {showTicketDetails && renderTicketDetails(selectedTicket)}
     </div>
   )
 }

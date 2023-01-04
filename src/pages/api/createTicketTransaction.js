@@ -1,16 +1,16 @@
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { Keypair, clusterApiUrl, Connection, PublicKey, Transaction, LAMPORTS_PER_SOL, SystemProgram } from "@solana/web3.js";
+import {  Keypair, clusterApiUrl, Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress, createAssociatedTokenAccount, getMint } from "@solana/spl-token";
 import BigNumber from "bignumber.js";
-import React , { useState, useEffect } from 'react';
 import base58 from 'bs58'
 
 
 const shopSecretKey = process.env.NEXT_PUBLIC_SHOP_SECRET_KEY;
 const shopKeypair = Keypair.fromSecretKey(base58.decode(shopSecretKey));
+const shopPublicKey = shopKeypair.publicKey;
+console.log('shop publicKey', shopPublicKey.toString())
 
-// SPL TOKEN ADDRESS
-const usdcAddress = new PublicKey("2iuTzsZKcksDkQ7tXbmiyzz3Cdy8V16W2jZdVdWqjPpU");
+
 
 // the owner of usdcAddress is the shopKeypair
 
@@ -18,6 +18,8 @@ const createTransaction = async (req, res) => {
   // console.log('intl', req.body.shippingInfo.international)
   try {
     const { buyer, orderID } = req.body;
+    // SPL TOKEN ADDRESS
+    const usdcAddress = new PublicKey(req.body.ticketAddress);
     console.log("req.body on txn", req.body);
     if (!buyer) {
       res.status(400).json({
@@ -102,24 +104,26 @@ const createTransaction = async (req, res) => {
         return {buyerUsdcAddress, shopUsdcAddress}
       }
       await checkAccounts();
-    
+      // the signer of the transaction is the shopKeypair
       const transferInstruction = createTransferCheckedInstruction(
         shopUsdcAddress, // This is the address of the token we want to transfer
         usdcAddress,     // This is the address of the token we want to transfer
-        buyerUsdcAddress, 
-        buyerPublicKey, 
-        1, 
+        buyerUsdcAddress, // This is the address of the token we want to transfer
+        shopPublicKey, // This is the address of the token we want to transfer
+        1, // This is the address of the token we want to transfer
+        usdcMint.decimals, // This is the address of the token we want to transfer
       );
 
 
       transferInstruction.keys.push({
         pubkey: new PublicKey(orderID),
-        isSigner: false, 
-        isWritable: false,
+        isSigner: false,
+        isWritable: false, 
       });
       // tx.add(transferInstruction, transferTwo);
       tx.add(transferInstruction);
-   
+      
+      
     
     const serializedTransaction = tx.serialize({
       requireAllSignatures: false,

@@ -36,8 +36,8 @@ export const TestTickets= () => {
             for (let i = 0; i < nfts.length; i++) {
               let fetchResult = await fetch(nfts[i].uri)
               let json = await fetchResult.json()
-              console.log('json', json)
-              console.log('address of nft is ', nfts[i].mintAddress.toString())
+            //   console.log('json', json)
+            //   console.log('address of nft is ', nfts[i].mintAddress.toString())
               nftData.push(
                 {
                     mintaddress: nfts[i].mintAddress.toString(),
@@ -49,8 +49,9 @@ export const TestTickets= () => {
             }
             // set testTickets state to the first 3 objects in nftData
             setTestTickets(nftData.slice(0,3))
-            console.log('testTickets', nftData)
+            // console.log('testTickets', nftData)
             setLoading(false)
+            console.log('testTickets', testTickets)
         }
         fetchNFTs()
     }, [wallet])
