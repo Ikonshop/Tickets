@@ -11,7 +11,7 @@ export const TestTickets= () => {
     const { connection } = useConnection()
     const wallet = useWallet()
     const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet))
-    const fetchWallet = 'AKMpGNrueQR97mwKy8CMUK1tTF2peVmPPAnzR8D9JjcE'
+    const fetchWallet = 'DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ'
 
 
     useEffect(() => {
@@ -36,17 +36,18 @@ export const TestTickets= () => {
             for (let i = 0; i < nfts.length; i++) {
               let fetchResult = await fetch(nfts[i].uri)
               let json = await fetchResult.json()
-            //   console.log('json', json)
-            //   console.log('address of nft is ', nfts[i].mintAddress.toString())
-              nftData.push(
-                {
-                    mintaddress: nfts[i].mintAddress.toString(),
-                    image: json.image,
-                    attributes: json.attributes,
+                if(json.name == "SOLTIX"){
+                    console.log('json', json)
+                    console.log('address of nft is ', nfts[i].mintAddress.toString())
+                    nftData.push(
+                        {
+                            mintaddress: nfts[i].mintAddress.toString(),
+                            image: json.image,
+                            attributes: json.attributes,
+                        }
+                    )
                 }
-              )
-              
-            }
+            }   
             // set testTickets state to the first 3 objects in nftData
             setTestTickets(nftData.slice(0,3))
             // console.log('testTickets', nftData)

@@ -11,6 +11,7 @@ export const FetchCandyMachine: FC = () => {
   const [candyMachineAddress, setCandyMachineAddress] = useState("AYojeY24i4SXE82jZWZHsMsUD29mHg2zzBZWuETCdqti")
   const [candyMachineData, setCandyMachineData] = useState(null)
   const [ticketsInPocket, setTicketsInPocket] = useState(null)
+  const [perksInPocket, setPerksInPocket] = useState(null)
   const [pageItems, setPageItems] = useState(null)
   const [page, setPage] = useState(1)
 
@@ -39,6 +40,7 @@ export const FetchCandyMachine: FC = () => {
       <>
         <Button title="close" onClick={() => setShowTicketDetails(false)} />
         <TicketDetails 
+          perks={perksInPocket}
           address={nft.address} 
           name={name}
           description={description}
@@ -71,6 +73,7 @@ export const FetchCandyMachine: FC = () => {
     
       // fetch off chain metadata for each NFT
       let nftData = []
+      let perkData = []
       for (let i = 0; i < nfts.length; i++) {
         let fetchResult = await fetch(nfts[i].uri)
         let json = await fetchResult.json()
@@ -80,11 +83,16 @@ export const FetchCandyMachine: FC = () => {
           // push the json and the nfts[i].address to the nftData array
           nftData.push({json, address: nfts[i].address.toString()})
         }
+        if(json.symbol === 'STP') {
+          console.log('perk json', json)
+          perkData.push({json, address: nfts[i].address.toString()})
+        }
         
       }
   
       // set state
       setTicketsInPocket(nftData)
+      setPerksInPocket(perkData)
       console.log('nftData', nftData)
       setLoading(false)
     } catch (e) {
@@ -147,20 +155,40 @@ export const FetchCandyMachine: FC = () => {
     <div>
       {loading && <div>Loading...</div>}
       {ticketsInPocket?.length > 0 && !showTicketDetails && (
-        <div>
+        <div className={styles.pocketContainer}>
           <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-          Tickets in your pocket
+          What's in your pocket?
           </h1>
-          <div className={styles.gridNFT}>
-            {ticketsInPocket.map((nft, index) => (
-              <div key={index}>
-                <ul>{nft.json.name}</ul>
-                <img src={nft.json.image} />
-                <Button title="View" onClick={() => {setSelectedTicket(nft), setShowTicketDetails(true)}} />
+          <div className={styles.splitContainer}>
+            <div className={styles.gridContainer}>
+              <h4>Tickets</h4>
+              <div className={styles.gridNFT}>
+              
+                {ticketsInPocket.map((nft, index) => (
+                  <div key={index}>
+                    
+                    <img src={nft.json.image} />
+                    <Button title="View" onClick={() => {setSelectedTicket(nft), setShowTicketDetails(true)}} />
+                  </div>
+                ))}
+                
               </div>
-            ))}
+            </div>
+            <div className={styles.perkContainer}>
+
+              <h4>Perks</h4>
+              <div className={styles.perkGrid}>
+                {perksInPocket?.map((perk, index) => (
+                  <div className={styles.perkCard} key={index}>
+                    <ul>{perk.json.attributes[0].value}</ul>
+                    <img className={styles.perkImg} src={perk.json.image} />
+                  </div>
+                ))}
+              </div>
+
+            </div>
           </div>
-          <button
+          {/* <button
             className="px-8 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ..."
             onClick={prev}
           >
@@ -171,7 +199,7 @@ export const FetchCandyMachine: FC = () => {
             onClick={next}
           >
             Next
-          </button>
+          </button> */}
         </div>
       )}
       {ticketsInPocket?.length < 1 && (

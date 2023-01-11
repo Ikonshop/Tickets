@@ -1,5 +1,70 @@
+.pocketContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.splitContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.gridContainer{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50vw;
+}
+
 .gridNFT {
-  display: grid;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 0.5em;
+  width: 50vw;
+}
+
+.gridContainer > h4 {
+  color: black;
+}
+
+.perkContainer{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50vw;
+}
+
+.perkContainer > h4 {
+  color: black;
+
+}
+
+.perkGrid{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0.2em;
+}
+
+.perkCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
+.perkCard > ul{
+  list-style: none;
+  padding: 0;
+  color: black;
+}
+
+.perkImg {
+  width: 10vw;
+  height: 10vw;
 }

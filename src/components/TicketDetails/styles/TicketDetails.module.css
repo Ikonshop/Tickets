@@ -20,6 +20,51 @@
     padding: 20px;
 }
 
+.ticket_detail_left_viewbox{
+    /* contents should be relative and able to overlap eachother */
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    padding: 20px;
+}
+/* the contents of ticket_detail_left_viewbox should overlap eachother */
+
+.ticket_image_container{
+    width: 40vw;
+    height: 50vh;
+    position: relative;
+    background-color: transparent;
+    padding: 20px;
+}
+
+.ticket_image{
+    width: 100%;
+    height: 100%;
+    position: absolute; 
+    left: 0;
+    top: 0;
+}
+
+
+.hat{
+    width: 42%;
+    height: 42%;
+    position: absolute;
+    z-index: 1;
+    top: 20%;
+    left: 25%;
+}
+
+.popcorn{
+    width: 44%;
+    height: 44%;
+    position: absolute;
+    z-index: 2;
+    top: 36%;
+    left: 30%;
+}
+
 .ticket_detail_right{
     color: black;
     display: flex;
