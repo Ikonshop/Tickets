@@ -1,28 +1,27 @@
-import { FC, useEffect } from "react"
-import Link from "next/link"
+import { FC, useEffect } from "react";
+import Link from "next/link";
 
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
-import { useAutoConnect } from "../contexts/AutoConnectProvider"
-import { RequestAirdrop } from "./RequestAirdrop"
-import NetworkSwitcher from "./NetworkSwitcher"
-import { useWallet, useConnection } from "@solana/wallet-adapter-react"
-import useUserSOLBalanceStore from "../stores/useUserSOLBalanceStore"
-
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useAutoConnect } from "../contexts/AutoConnectProvider";
+import { RequestAirdrop } from "./RequestAirdrop";
+import NetworkSwitcher from "./NetworkSwitcher";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import useUserSOLBalanceStore from "../stores/useUserSOLBalanceStore";
 
 export const AppBar: FC = (props) => {
-  const { autoConnect, setAutoConnect } = useAutoConnect()
-  const wallet = useWallet()
-  const { connection } = useConnection()
+  const { autoConnect, setAutoConnect } = useAutoConnect();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
-  const balance = useUserSOLBalanceStore((s) => s.balance)
-  const { getUserSOLBalance } = useUserSOLBalanceStore()
+  const balance = useUserSOLBalanceStore((s) => s.balance);
+  const { getUserSOLBalance } = useUserSOLBalanceStore();
 
   useEffect(() => {
     if (wallet.publicKey) {
-      console.log(wallet.publicKey.toBase58())
-      getUserSOLBalance(wallet.publicKey, connection)
+      console.log(wallet.publicKey.toBase58());
+      getUserSOLBalance(wallet.publicKey, connection);
     }
-  }, [wallet.publicKey, connection, getUserSOLBalance])
+  }, [wallet.publicKey, connection, getUserSOLBalance]);
 
   return (
     <div>
@@ -45,16 +44,17 @@ export const AppBar: FC = (props) => {
             </svg>
           </label>
 
-          <div >
-            <img 
-              onClick={() => window.location.href = "/"}
+          <div>
+            <img
+              onClick={() => (window.location.href = "/")}
               style={{
                 width: "100px",
                 height: "100px",
                 marginTop: "10px",
-              }} 
-              src="/logoWhBg.svg" 
-              alt="logo" />
+              }}
+              src="/logoWhBg.svg"
+              alt="logo"
+            />
           </div>
         </div>
 
@@ -148,7 +148,9 @@ export const AppBar: FC = (props) => {
               <li>
                 <div className="form-control">
                   <label className="cursor-pointer label">
-                    {wallet && <p>SOL Balance: {(balance || 0).toLocaleString()}</p>}
+                    {wallet && (
+                      <p>SOL Balance: {(balance || 0).toLocaleString()}</p>
+                    )}
                   </label>
 
                   <RequestAirdrop />
@@ -160,5 +162,5 @@ export const AppBar: FC = (props) => {
       </div>
       {props.children}
     </div>
-  )
-}
+  );
+};
