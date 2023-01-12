@@ -42,8 +42,8 @@ export const HomeView: FC = ({}) => {
           Get a unique experience holding your NFT tickets by attaching upgrades
           directly to your ticket.
         </p>
-        <div>{/* <TestTickets /> */}</div>
-      </div>
+        <div><TestTickets /></div>
+        <div data-tf-popover="yIG54kJf" data-tf-opacity="100" data-tf-iframe-props="title=Sol Tix Venue Form" data-tf-transitive-search-params data-tf-button-color="#5CD6C8" data-tf-tooltip="Hey 👋  Want to use SolTix for your next event?" style={{all:"unset"}}></div><script src="//embed.typeform.com/next/embed.js"></script>      </div>
     </div>
   );
 };

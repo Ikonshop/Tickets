@@ -64,21 +64,23 @@ export const TestTickets= () => {
             {!loading && testTickets && testTickets.map((ticket, index) => (
                 <div className={styles.testTicketCard} key={index}>
                     <img src={ticket.image} alt={ticket.name} />
-                    <div className={styles.testTicketInfo}>
+                    <p>SEAT: {ticket.attributes[2].value}</p>
+                    <p>COST: {ticket.attributes[3].value} SOL</p>
+                    <Buy
+                        ticketAddress={ticket.mintaddress}
+                        buyer={wallet.publicKey?.toString()}
+                        token="SOL"
+                        price={ticket.attributes[3].value}
+                        owner={fetchWallet}
+                    />
+                    {/* <div className={styles.testTicketInfo}>
                         <div className={styles.testTicketLeft}>
-                        <h3>SEAT: {ticket.attributes[2].value}</h3>
-                        <p>COST: {ticket.attributes[3].value} SOL</p>
+                        
                         </div>
                         <div className={styles.testTicketRight}>
-                            <Buy
-                                ticketAddress={ticket.mintaddress}
-                                buyer={wallet.publicKey?.toString()}
-                                token="SOL"
-                                price={ticket.attributes[3].value}
-                                owner={fetchWallet}
-                            />
+                            
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             ))}
         </div>
