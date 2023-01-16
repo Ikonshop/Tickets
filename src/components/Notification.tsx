@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import {
-  CheckCircleIcon,
-  InformationCircleIcon,
-  XCircleIcon,
-} from '@heroicons/react/outline'
-import { XIcon } from '@heroicons/react/solid'
+// import {
+//   CheckCircleIcon,
+//   InformationCircleIcon,
+//   XCircleIcon,
+// } from '@heroicons/react/outline'
+// import { XIcon } from '@heroicons/react/solid'
 import useNotificationStore from '../stores/useNotificationStore'
 import { useConnection } from '@solana/wallet-adapter-react';
 import { getExplorerUrl } from '../utils/explorer'
@@ -72,11 +72,13 @@ const Notification = ({ type, message, description, txid, onHide }) => {
         <div className={`flex items-center`}>
           <div className={`flex-shrink-0`}>
             {type === 'success' ? (
-              <CheckCircleIcon className={`h-8 w-8 mr-1 text-green`} />
+              null
+              // <CheckCircleIcon className={`h-8 w-8 mr-1 text-green`} />
             ) : null}
-            {type === 'info' && <InformationCircleIcon className={`h-8 w-8 mr-1 text-red`} />}
+            {type === 'info' && (null)}
             {type === 'error' && (
-              <XCircleIcon className={`h-8 w-8 mr-1`} />
+              null
+              // <XCircleIcon className={`h-8 w-8 mr-1`} />
             )}
           </div>
           <div className={`ml-2 w-0 flex-1`}>
@@ -107,7 +109,7 @@ const Notification = ({ type, message, description, txid, onHide }) => {
               className={`bg-bkg-2 default-transition rounded-md inline-flex text-fgd-3 hover:text-fgd-4 focus:outline-none`}
             >
               <span className={`sr-only`}>Close</span>
-              <XIcon className="h-5 w-5" />
+              {/* <XIcon className="h-5 w-5" /> */}
             </button>
           </div>
         </div>

@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.5",
     "@metaplex-foundation/js": "^0.17.2",
     "@solana/pay": "^0.2.4",
     "@solana/wallet-adapter-base": "^0.9.3",
