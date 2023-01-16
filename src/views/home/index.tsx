@@ -13,7 +13,6 @@ import pkg from "../../../package.json";
 
 // Store
 import useUserSOLBalanceStore from "../../stores/useUserSOLBalanceStore";
-import { ColorSwatchIcon } from "@heroicons/react/outline";
 
 export const HomeView: FC = ({}) => {
   const wallet = useWallet();
