@@ -14,3 +14,5 @@ const Admin: NextPage = (props) => {
         </div>
     )
 }
+
+export default Admin
