@@ -11,24 +11,13 @@ const Table: FC<TableProps> = ({ headers, rows, onClick }) => {
     const [showDetails, setShowDetails] = useState(false)
     
     const renderRows = () => {
-        return rows.map((row, index) => {
-            console.log('row is', row)
+        console.log('rows', rows)
         return (
-            <tr
-            key={index}
-            onClick={() => {
-                setSelectedRow(row)
-                setShowDetails(true)
-                onClick(row)
-            }}
-            className="hover:bg-gray-100 cursor-pointer"
-            >
-            {row.map((item, index) => {
-                return <td key={index}>{item}</td>
-            })}
-            </tr>
+            <div>
+                Table
+            </div>
+
         )
-        })
     }
 
     return (

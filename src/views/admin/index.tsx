@@ -6,6 +6,7 @@ import { Metaplex, toPublicKey } from "@metaplex-foundation/js"
 import { Connection, PublicKey  } from "@solana/web3.js"
 import Button from "../../components/Utils/Button"
 import Table from "../../components/Utils/Table"
+import Loading from "components/Utils/Loading"
 
 export const AdminView: FC = ({}) => {
     const distro = process.env.NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS;
@@ -111,9 +112,7 @@ export const AdminView: FC = ({}) => {
     return (
         <div className="md:hero mx-auto p-4">
             {loading ? (
-                <div> 
-                    Loading...
-                </div>
+                <Loading />
                 ):(
                     <div className="md:hero-content flex flex-col">
                 {/* CONTENT GOES HERE */}

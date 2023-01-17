@@ -4,6 +4,7 @@ import { Metaplex, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
 import TicketDetails from "../components/TicketDetails/TicketDetails"
 import Button from "../components/Utils/Button"
+import Loading from "../components/Utils/Loading"
 import styles from "../styles/custom.module.css"
 
 export const FetchCandyMachine: FC = () => {
@@ -153,7 +154,7 @@ export const FetchCandyMachine: FC = () => {
 
   return (
     <div>
-      {loading && <div>Loading...</div>}
+      {loading && <Loading />}
       {ticketsInPocket?.length > 0 && !showTicketDetails && (
         <div className={styles.pocketContainer}>
           <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
