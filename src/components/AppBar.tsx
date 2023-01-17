@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -9,6 +9,10 @@ import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import useUserSOLBalanceStore from "../stores/useUserSOLBalanceStore";
 
 export const AppBar: FC = (props) => {
+  const [admin, setAdmin] = useState(false);
+
+
+  
   const { autoConnect, setAutoConnect } = useAutoConnect();
   const wallet = useWallet();
   const { connection } = useConnection();
@@ -22,6 +26,7 @@ export const AppBar: FC = (props) => {
       getUserSOLBalance(wallet.publicKey, connection);
     }
   }, [wallet.publicKey, connection, getUserSOLBalance]);
+
 
   return (
     <div>
@@ -61,15 +66,24 @@ export const AppBar: FC = (props) => {
         {/* Nav Links */}
         <div className="hidden md:inline md:navbar-center">
           <div className="flex items-stretch">
+            
             <Link href="/">
               <a className="btn btn-ghost btn-sm rounded-btn">Home</a>
             </Link>
-            <Link href="/events">
-              <a className="btn btn-ghost btn-sm rounded-btn">Events</a>
-            </Link>
-            <Link href="/pocket">
-              <a className="btn btn-ghost btn-sm rounded-btn">My Pocket</a>
-            </Link>
+            {admin ? (
+              <Link href="/admin">
+                <a className="btn btn-ghost btn-sm rounded-btn">Admin</a>
+              </Link>
+            ) : (
+              <>
+                <Link href="/events">
+                  <a className="btn btn-ghost btn-sm rounded-btn">Events</a>
+                </Link>
+                <Link href="/pocket">
+                  <a className="btn btn-ghost btn-sm rounded-btn">My Pocket</a>
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -115,7 +129,15 @@ export const AppBar: FC = (props) => {
                       className="toggle"
                     />
                   </label>
-
+                  <label className="cursor-pointer label">
+                    <a>Admin Mode</a>
+                    <input
+                      type="checkbox"
+                      checked={admin}
+                      onChange={(e) => setAdmin(e.target.checked)}
+                      className="toggle"
+                    />
+                  </label>
                   <NetworkSwitcher />
                 </div>
               </li>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundation/js"
 import styles from "./styles/TicketDetails.module.css"
