@@ -215,9 +215,7 @@ export const AdminView: FC = ({}) => {
                 ):(
                     <div className="md:hero-content flex flex-col">
                 {/* CONTENT GOES HERE */}
-                
-                {!viewSoldTickets ? 
-                (
+                {!viewSoldTickets && (
                     <Button
                         title="View Sold Tickets"
                         onClick={() => {
@@ -225,9 +223,8 @@ export const AdminView: FC = ({}) => {
                             setViewAllTickets(false)
                         }}
                     />
-                ) : renderSoldTicketsTable()}
-                {!viewAllTickets ? 
-                (
+                )}
+                {!viewAllTickets && (
                     <Button
                         title="View All Tickets"
                         onClick={() => {
@@ -235,7 +232,9 @@ export const AdminView: FC = ({}) => {
                             setViewSoldTickets(false)
                         }}
                     />
-                ) : renderAllTicketsTable()}
+                )}
+                {viewSoldTickets && renderSoldTicketsTable()}
+                {viewAllTickets && renderAllTicketsTable()}
             </div>
             )}
         </div>

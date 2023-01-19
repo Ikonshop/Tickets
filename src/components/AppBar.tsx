@@ -27,6 +27,12 @@ export const AppBar: FC = (props) => {
     }
   }, [wallet.publicKey, connection, getUserSOLBalance]);
 
+  useEffect(() => {
+    //if the page url is '/admin' then set admin to true
+    if (window.location.pathname === "/admin") {
+      setAdmin(true);
+    }
+  }, []);
 
   return (
     <div>
