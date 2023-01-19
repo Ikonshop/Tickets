@@ -28,7 +28,6 @@ const TicketDetails = (req) => {
                     setPopcorn(perks[i].json.image)
                 }
             }
-           
         }
     }, [perks])
 
