@@ -1,31 +1,78 @@
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useAutoConnect } from "../contexts/AutoConnectProvider";
 import { RequestAirdrop } from "./RequestAirdrop";
 import NetworkSwitcher from "./NetworkSwitcher";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import { keypairIdentity, Metaplex } from '@metaplex-foundation/js'
+import { Connection, PublicKey, Keypair } from '@solana/web3.js'
 import useUserSOLBalanceStore from "../stores/useUserSOLBalanceStore";
 
 export const AppBar: FC = (props) => {
   const [admin, setAdmin] = useState(false);
+  const [ticketCount, setTicketCount] = useState(0);
+  const [perkCount, setPerkCount] = useState(0);
 
-
+  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT;
   
   const { autoConnect, setAutoConnect } = useAutoConnect();
   const wallet = useWallet();
-  const { connection } = useConnection();
+  const connection = new Connection (endpoint, "confirmed");
 
   const balance = useUserSOLBalanceStore((s) => s.balance);
+
   const { getUserSOLBalance } = useUserSOLBalanceStore();
+
+  const TIX_ADDRESS = "7boC1U9w1uRSshcTb7ojHWe2XH86BLVQzK5Lru8DAoqe"
+  const TIX_PERKS_ADDRESS = '5dzonQLJSoRDP8cDY6QmQnQZYC7fSzEyRWCkf8FY5p67'
+
+  const getUserTicketsCount = async (publicKey: PublicKey ) => {
+    const metaplex = new Metaplex(connection)
+    const keypair = Keypair.generate()
+    metaplex.use(keypairIdentity(keypair))
+    
+    
+    //get balance of tokens in TIX_ADDRESS
+    try {
+      // find any NFTs owned by the user with the Token address of TIX_ADDRESS
+      let tix = [];
+      let perks = [];
+      const allNfts = await metaplex
+      .nfts()
+      .findAllByOwner({ owner: publicKey })
+      
+      for(let i = 0; i < allNfts.length; i++){
+        console.log('checking :', allNfts[i].collection.key.toString())
+        if(allNfts[i].collection.key.toString() === TIX_ADDRESS){
+          console.log('tix:', allNfts[i].collection.key.toString())
+          tix.push(allNfts[i].collection.key.toString())
+        }
+        if(allNfts[i].collection.key.toString() === TIX_PERKS_ADDRESS){
+          console.log('perks:', allNfts[i].collection.key.toString())
+          perks.push(allNfts[i].collection.key.toString())
+        }
+      }
+
+      setTicketCount(tix.length);
+      setPerkCount(perks.length);
+      console.log('total tix:', tix)
+      console.log('total perks:', perks)
+    }
+    catch (e) {
+      console.log(`error getting balance: `, e);
+    }
+  }
 
   useEffect(() => {
     if (wallet.publicKey) {
       console.log(wallet.publicKey.toBase58());
       getUserSOLBalance(wallet.publicKey, connection);
+      getUserTicketsCount(wallet.publicKey);
     }
-  }, [wallet.publicKey, connection, getUserSOLBalance]);
+  }, [wallet.publicKey]);
+
+
 
   useEffect(() => {
     //if the page url is '/admin' then set admin to true
@@ -177,7 +224,11 @@ export const AppBar: FC = (props) => {
                 <div className="form-control">
                   <label className="cursor-pointer label">
                     {wallet && (
-                      <p>SOL Balance: {(balance || 0).toLocaleString()}</p>
+                      <>
+                        <p>SOL Balance: {(balance || 0).toLocaleString()}</p>
+                        <p># of NFTix: {(ticketCount || 0).toLocaleString()}</p>
+                        <p># of Perks: {(perkCount || 0).toLocaleString()}</p>
+                      </>
                     )}
                   </label>
 

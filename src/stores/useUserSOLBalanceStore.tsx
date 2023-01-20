@@ -1,5 +1,6 @@
 import create, { State } from 'zustand'
-import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js'
+import { Connection, PublicKey, LAMPORTS_PER_SOL, Keypair } from '@solana/web3.js'
+import { keypairIdentity, Metaplex } from '@metaplex-foundation/js'
 
 interface UserSOLBalanceStore extends State {
   balance: number;
@@ -8,7 +9,9 @@ interface UserSOLBalanceStore extends State {
 
 const useUserSOLBalanceStore = create<UserSOLBalanceStore>((set, _get) => ({
   balance: 0,
+
   getUserSOLBalance: async (publicKey, connection) => {
+    
     let balance = 0;
     try {
       balance = await connection.getBalance(
