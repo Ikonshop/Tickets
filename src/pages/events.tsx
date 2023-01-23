@@ -15,14 +15,3 @@ const Display: NextPage = (props) => {
 }
 
 export default Display
-
-
-export const getStaticProps = async (context) => {
-  const { id } = context.params
-
-  return {
-    props: {
-      id,
-    },
-  }
-}
