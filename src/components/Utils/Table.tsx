@@ -62,7 +62,7 @@ const Table: React.FC<TableProps> = ({headers, rows, onClick}) => {
                         key={index}
                         //row is an array of strings
                         onClick={() => onClick(
-                            [row[1]]
+                            [...row]
                         )}
                         className={"border-b border-gray-200 hover:bg-gray-100 cursor-pointer"}
                     >

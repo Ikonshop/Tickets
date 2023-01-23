@@ -22,6 +22,7 @@ export const AdminView: FC = ({}) => {
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [ticketDetails, setTicketDetails] = useState(null);
     const [ticketAttributes, setTicketAttributes] = useState(null)
+    const [ticketAddress, setTicketAddress] = useState(null)
 
     const endpoint = "https://solana-devnet.g.alchemy.com/v2/Yn1LR558RcFTubSO2xTjcCTIEHeQIl8R";
     const connection = new Connection("https://api.devnet.solana.com", "confirmed");
@@ -74,26 +75,34 @@ export const AdminView: FC = ({}) => {
         }
     ]
 
-    const renderTicketDetails = async(
+    const renderTicketDetails = (
+        owner: any,
+        ticketAddress: any,
         ticketDetails: any,
         ticketAttributes: any
     ) => {
-        
+        const perksInPocket = [];
+        const address = ticketAddress
+        const name = ticketDetails.name
+        const description = ticketDetails.description
+        const image = ticketDetails.image
+        const symbol = ticketDetails.symbol
+
         //VESPADT
-        // const venue = ticketAttributes[0].value
-        // const event = ticketAttributes[1].value
-        // const seat = ticketAttributes[2].value
-        // const price =  ticketAttributes[3].value
-        // const accessories = ticketAttributes[4].value
-        // const date = ticketAttributes[5].value
-        // const time = ticketAttributes[6].value
+        const venue = ticketAttributes[0].value
+        const event = ticketAttributes[1].value
+        const seat = ticketAttributes[2].value
+        const price =  ticketAttributes[3].value
+        const accessories = ticketAttributes[4].value
+        const date = ticketAttributes[5].value
+        const time = ticketAttributes[6].value
     
         return(
           <>
             <Button title="close" onClick={() => setShowTicketDetails(false)} />
-            {/* <TicketDetails 
+            <TicketDetails 
               perks={perksInPocket}
-              address={nft.address} 
+              address={address} 
               name={name}
               description={description}
               image={image}
@@ -105,7 +114,7 @@ export const AdminView: FC = ({}) => {
               accessories={accessories}
               date={date}
               time={time}
-            /> */}
+            />
           </>
         )
     }
@@ -137,9 +146,11 @@ export const AdminView: FC = ({}) => {
                         }
                         onClick={(row) => {
                             console.log('row', row)
+                            const owner = row[0]
+                            const ticketAddress = row[1]
                             const ticketDetails = allTickets[row[0]]
-                            const ticketAttributes = ticketDetails.data.parsed.info.data.parsed.info.data
-                            renderTicketDetails(ticketDetails, ticketAttributes)
+                            const ticketAttributes = row[2]
+                            renderTicketDetails(owner, ticketAddress, ticketDetails, ticketAttributes)
                         }}
                         />
                 </div>
@@ -203,14 +214,16 @@ export const AdminView: FC = ({}) => {
                 allMintsAndOwners.push({
                     'wallet': walletAddress,
                     'ticket': allTixMA[i].toString(),
-                    'seat': allAttributes[i][2].value
+                    'seat': allAttributes[i][2].value,
+                    'allAttributes': [allAttributes[i]
                 })
                 console.log('pushing', allTixMA[i].toString(), walletAddress )
                 if(walletAddress != distro){
                     soldTicketsInfo.push({
                         'wallet': walletAddress,
                         'ticket': allTixMA[i].toString(),
-                        'seat': allAttributes[i][2].value
+                        'seat': allAttributes[i][2].value,
+                        'allAttributes': [allAttributes[i]],
                     })
                     console.log('pushing sold ticket', walletAddress + allTixMA[i].toString() + allAttributes[i])
                 }
@@ -253,9 +266,10 @@ export const AdminView: FC = ({}) => {
       
         getTickets()
         // setLoading(false)
-    }, [connection])
+    }, [])
     useEffect(() => {
         const getTicketDetails = async () => {
+       
             console.log('selectedTicket', selectedTicket)
             const nft = await getNftInfo(selectedTicket)
             console.log('nft', nft)
@@ -263,15 +277,18 @@ export const AdminView: FC = ({}) => {
 
             console.log('json', json)
             setTicketDetails(json)
+            setTicketAddress(selectedTicket)
 
             const attributes = await json.attributes
             console.log('attributes', attributes)
+           
             setTicketAttributes(attributes)
             setLoading(false)
         }
         if(selectedTicket){
             getTicketDetails()
         }
+        
     }, [selectedTicket])
 
 
@@ -309,7 +326,7 @@ export const AdminView: FC = ({}) => {
                 )}
                 {viewSoldTickets && !showTicketDetails && renderSoldTicketsTable()}
                 {viewAllTickets && !showTicketDetails && renderAllTicketsTable()}
-                {showTicketDetails && ticketAttributes != null && !loading && renderTicketDetails(ticketDetails, ticketAttributes)}
+                {showTicketDetails && ticketAttributes != null && !loading && renderTicketDetails(ticketAddress, ticketDetails, ticketAttributes)}
             </div>
             )}
         </div>
