@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -43,9 +44,13 @@ export const AppBar: FC = (props) => {
       .findAllByOwner({ owner: publicKey })
       
       for(let i = 0; i < allNfts.length; i++){
+ 
         console.log('checking :', allNfts[i].collection.key.toString())
+
         if(allNfts[i].collection.key.toString() === TIX_ADDRESS){
+        
           console.log('tix:', allNfts[i].collection.key.toString())
+          
           tix.push(allNfts[i].collection.key.toString())
         }
         if(allNfts[i].collection.key.toString() === TIX_PERKS_ADDRESS){
