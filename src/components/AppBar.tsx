@@ -15,7 +15,7 @@ export const AppBar: FC = (props) => {
   const [ticketCount, setTicketCount] = useState(0);
   const [perkCount, setPerkCount] = useState(0);
 
-  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT;
+  const endpoint = "https://solana-devnet.g.alchemy.com/v2/Yn1LR558RcFTubSO2xTjcCTIEHeQIl8R";
   
   const { autoConnect, setAutoConnect } = useAutoConnect();
   const wallet = useWallet();

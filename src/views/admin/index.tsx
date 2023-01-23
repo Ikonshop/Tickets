@@ -23,8 +23,7 @@ export const AdminView: FC = ({}) => {
     const [ticketDetails, setTicketDetails] = useState(null);
     const [ticketAttributes, setTicketAttributes] = useState(null)
 
-    console.log('endpoint', process.env.NEXT_PUBLIC_SOLANA_ENDPOINT)
-    const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT;
+    const endpoint = "https://solana-devnet.g.alchemy.com/v2/Yn1LR558RcFTubSO2xTjcCTIEHeQIl8R";
     const connection = new Connection("https://api.devnet.solana.com", "confirmed");
     // const connection = new Connection(
     //     endpoint,
