@@ -6,7 +6,9 @@ import { Metaplex, toPublicKey, keypairIdentity } from "@metaplex-foundation/js"
 import { Connection, PublicKey, Keypair  } from "@solana/web3.js"
 import Button from "../../components/Utils/Button"
 import Table from "../../components/Utils/Table"
+import TicketDetails from "components/TicketDetails/TicketDetails"
 import Loading from "components/Utils/Loading"
+import getNftInfo from "hooks/getNftInfo"
 
 export const AdminView: FC = ({}) => {
     const distro = process.env.NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS;
@@ -15,7 +17,11 @@ export const AdminView: FC = ({}) => {
     const [viewAllTickets, setViewAllTickets] = useState<boolean>(false);
     const [viewSoldTickets, setViewSoldTickets] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [showTicketDetails, setShowTicketDetails] = useState<boolean>(false);
     const [mintInfoLoading, setMintInfoLoading] = useState<boolean>(true);
+    const [selectedTicket, setSelectedTicket] = useState(null);
+    const [ticketDetails, setTicketDetails] = useState(null);
+    const [ticketAttributes, setTicketAttributes] = useState(null)
 
     console.log('endpoint', process.env.NEXT_PUBLIC_SOLANA_ENDPOINT)
     const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT;
@@ -37,35 +43,74 @@ export const AdminView: FC = ({}) => {
     
     const testAllTix = [
         {
-            'wallet' : "0x1234",
-            'ticket' : 'G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvVr7Vs'
+            'wallet' : "DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ",
+            'ticket' : "EZUkA86kJSdqVUw2WCvvfFoLcmwCn5mZknMEdht4xu6h",
+            'seat' : "401",
         },
         {
-            'wallet' : "0x2132",
-            'ticket' : 'G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvsjG23'
+            'wallet' : "DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ",
+            'ticket' : "G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvVr7Vs",
+            'seat' : "201",
         },
         {
-            'wallet' : "0x2144",
-            'ticket' : 'G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvKj2s8'
+            'wallet' : "AiVac6FHAAcw9x3PmpSZopc5BVQaCDjZCL1TMwtGqgrf",
+            'ticket' : "62nWhr6vX1mUvATLjhh2N6T6jJLEgMorjswu5yR2mZqZ",
+            'seat' : "A169",
         },
-        {
-            'wallet' : "0x4432",
-            'ticket' : 'G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvLUwt4'
-        },
+        
     ]
 
     
 
     const testSoldTix = [
         {
-            'wallet' : "0x2144",
-            'ticket' : 'G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvKj2s8'
+            'wallet' : "DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ",
+            'ticket' : "G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvVr7Vs",
+            'seat' : "201",
         },
         {
-            'wallet' : "0x4432",
-            'ticket' : 'G45xtHn7vEXGsKm3VpsHsosdwHmxdDYXF69dScvLUwt4'
+            'wallet' : "AiVac6FHAAcw9x3PmpSZopc5BVQaCDjZCL1TMwtGqgrf",
+            'ticket' : "62nWhr6vX1mUvATLjhh2N6T6jJLEgMorjswu5yR2mZqZ",
+            'seat' : "A169",
         }
     ]
+
+    const renderTicketDetails = async(
+        ticketDetails: any,
+        ticketAttributes: any
+    ) => {
+        
+        //VESPADT
+        // const venue = ticketAttributes[0].value
+        // const event = ticketAttributes[1].value
+        // const seat = ticketAttributes[2].value
+        // const price =  ticketAttributes[3].value
+        // const accessories = ticketAttributes[4].value
+        // const date = ticketAttributes[5].value
+        // const time = ticketAttributes[6].value
+    
+        return(
+          <>
+            <Button title="close" onClick={() => setShowTicketDetails(false)} />
+            {/* <TicketDetails 
+              perks={perksInPocket}
+              address={nft.address} 
+              name={name}
+              description={description}
+              image={image}
+              symbol={symbol}
+              venue={venue}
+              event={event}
+              seat={seat}
+              price={price}
+              accessories={accessories}
+              date={date}
+              time={time}
+            /> */}
+          </>
+        )
+    }
+
 
     const renderAllTicketsTable = () => {
         var allTix = []
@@ -91,9 +136,15 @@ export const AdminView: FC = ({}) => {
                                 return Object.values(tix)
                             })
                         }
-                        onClick={(row) => {}} />
+                        onClick={(row) => {
+                            console.log('row', row)
+                            const ticketDetails = allTickets[row[0]]
+                            const ticketAttributes = ticketDetails.data.parsed.info.data.parsed.info.data
+                            renderTicketDetails(ticketDetails, ticketAttributes)
+                        }}
+                        />
                 </div>
-            )
+            )   
         }
     }
 
@@ -120,7 +171,13 @@ export const AdminView: FC = ({}) => {
                                 return Object.values(tix)
                             })
                         } 
-                        onClick={(row) => {}} />
+                        onClick={(row) => {
+                            console.log('row', row)
+                            setLoading(true)
+                            //set the ticket address from the row (2nd column)
+                            setSelectedTicket(row[0]) 
+                            setShowTicketDetails(true)
+                        }} />
                 </div>
             )
         }
@@ -139,6 +196,7 @@ export const AdminView: FC = ({}) => {
                 )
                 
                 console.log('testNFTOwner', testNFTOwner.value.data)
+                // @ts-ignore
                 const walletAddress = testNFTOwner.value.data.parsed.info.owner
                 console.log('walletAddress', walletAddress)
                 console.log('allAttributes[i]', allAttributes[i])
@@ -183,6 +241,7 @@ export const AdminView: FC = ({}) => {
                 const json = await attributesFetch.json()
                 console.log('json', json)
                 const attributes = json.attributes
+                // @ts-ignore
                 const mintAddress = nfts[i].mintAddress
                 console.log('mintAddress', mintAddress)
                 allAttributes.push(attributes)
@@ -193,13 +252,29 @@ export const AdminView: FC = ({}) => {
             findAllMintList(allTixMA, allAttributes)
         }
       
-        async function getMintInfo() {
-            await getTickets()
-            // await findAllMintList()
-        }
-        getMintInfo()
+        getTickets()
         // setLoading(false)
-    }, [])
+    }, [connection])
+    useEffect(() => {
+        const getTicketDetails = async () => {
+            console.log('selectedTicket', selectedTicket)
+            const nft = await getNftInfo(selectedTicket)
+            console.log('nft', nft)
+            const json = await nft.json
+
+            console.log('json', json)
+            setTicketDetails(json)
+
+            const attributes = await json.attributes
+            console.log('attributes', attributes)
+            setTicketAttributes(attributes)
+            setLoading(false)
+        }
+        if(selectedTicket){
+            getTicketDetails()
+        }
+    }, [selectedTicket])
+
 
     // If the user's wallet address = venueWalletAddress, then they have the ability to airdrop Free Popcorn and Free Drinks to anyone on the list of users who have purchased tickets to the event.
     // If the user's wallet address = eventWalletAddress, then they have the ability to airdrop Free Merch and VIP Passes to anyone on the list of users who have purchased tickets to the event.
@@ -233,8 +308,9 @@ export const AdminView: FC = ({}) => {
                         }}
                     />
                 )}
-                {viewSoldTickets && renderSoldTicketsTable()}
-                {viewAllTickets && renderAllTicketsTable()}
+                {viewSoldTickets && !showTicketDetails && renderSoldTicketsTable()}
+                {viewAllTickets && !showTicketDetails && renderAllTicketsTable()}
+                {showTicketDetails && ticketAttributes != null && !loading && renderTicketDetails(ticketDetails, ticketAttributes)}
             </div>
             )}
         </div>

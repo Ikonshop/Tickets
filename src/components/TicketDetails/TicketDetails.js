@@ -47,7 +47,7 @@ const TicketDetails = (req) => {
                 <a
                     href={`https://explorer.solana.com/address/${address}?cluster=devnet`}
                     target="_blank"
-           x         rel="noreferrer"
+                    rel="noreferrer"
                 >
                     View on chain
                 </a>

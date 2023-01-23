@@ -45,6 +45,7 @@ interface TableProps {
 //     )
 //   }
 
+
 const Table: React.FC<TableProps> = ({headers, rows, onClick}) => {
     return (
         <table className={"table-auto text-left w-full text-black"}>
@@ -57,7 +58,14 @@ const Table: React.FC<TableProps> = ({headers, rows, onClick}) => {
             </thead>
             <tbody>
                 {rows.map((row, index) => (
-                    <tr key={index}>
+                    <tr 
+                        key={index}
+                        //row is an array of strings
+                        onClick={() => onClick(
+                            [row[1]]
+                        )}
+                        className={"border-b border-gray-200 hover:bg-gray-100 cursor-pointer"}
+                    >
                         {Object.entries(row).map(([key, value], index) => (
                             <td className={"border px-4 py-2 text-black"} key={index}>
                                 {

@@ -136,3 +136,11 @@
   width: 10vw;
   height: 10vw;
 }
+
+.loading_video{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 65vh;
+}
