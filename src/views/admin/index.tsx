@@ -1,9 +1,11 @@
 import { FC, useState, useEffect } from "react"
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {AllTickets} from "../../components/TicketDetails/AllTickets"
 import {SoldTickets}from "../../components/TicketDetails/SoldTickets"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, toPublicKey, keypairIdentity } from "@metaplex-foundation/js"
 import { Connection, PublicKey, Keypair  } from "@solana/web3.js"
+import Airdrop from "components/Airdrop"
 import Button from "../../components/Utils/Button"
 import Table from "../../components/Utils/Table"
 import TicketDetails from "components/TicketDetails/TicketDetails"
@@ -12,6 +14,7 @@ import getNftInfo from "hooks/getNftInfo"
 
 export const AdminView: FC = ({}) => {
     const distro = process.env.NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS;
+    const distroKey = new PublicKey(distro);
     const [venueWalletAddress, setVenueWalletAddress] = useState<string>('');
     const [eventWalletAddress, setEventWalletAddress] = useState<string>('');
     const [viewAllTickets, setViewAllTickets] = useState<boolean>(false);
@@ -25,6 +28,7 @@ export const AdminView: FC = ({}) => {
     const [ticketAttributes, setTicketAttributes] = useState(null)
     const [ticketAddress, setTicketAddress] = useState(null)
     const [ticketOwner, setTicketOwner] = useState(null)
+    const [perkList, setPerkList] = useState(null)
 
     const endpoint = "https://solana-devnet.g.alchemy.com/v2/Yn1LR558RcFTubSO2xTjcCTIEHeQIl8R";
     const connection = new Connection("https://api.devnet.solana.com", "confirmed");
@@ -103,6 +107,10 @@ export const AdminView: FC = ({}) => {
           <>
             <Button title="close" onClick={() => setShowTicketDetails(false)} />
             {/* TODO: BUTTON TO AIRDROP A PERK */}
+            <Airdrop
+                perkAddress={'4FZCVEMewuH5cBRE177txygVUkai2zo6iLRJ6GZp4LeL'}
+                walletAddress={'AiVac6FHAAcw9x3PmpSZopc5BVQaCDjZCL1TMwtGqgrf'}
+            />
             <TicketDetails 
               perks={perksInPocket}
               address={address} 
@@ -300,10 +308,10 @@ export const AdminView: FC = ({}) => {
             setAllTickets(nfts)
             setLoading(false)
             for(let i = 0; i < nfts.length; i++){
-                console.log('nft', nfts[i])
+                // console.log('nft', nfts[i])
                 const attributesFetch = await fetch(nfts[i].uri)
                 const json = await attributesFetch.json()
-                console.log('json', json)
+                // console.log('json', json)
                 const attributes = json.attributes
                 // @ts-ignore
                 const mintAddress = nfts[i].mintAddress
@@ -342,6 +350,51 @@ export const AdminView: FC = ({}) => {
         }
         
     }, [selectedTicket])
+
+    //create a useEffect that will fetch the list of tokens in teh NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS wallet and grab the Mint Addresses of the tokens that belong to the NEXT_PUBLIC_PERK_COLLECTION_ADDRESS collection
+    useEffect(() => {
+        const allPerks = []
+        const getPerkList = async () => {
+            
+            const program = new PublicKey(process.env.NEXT_PUBLIC_PERK_COLLECTION_ADDRESS)
+            const data = await connection.getTokenAccountsByOwner(
+                distroKey,
+                {
+                    mint: program
+                }
+            )
+            console.log ('data from getParsedTokenAccountsByOwner', data.value)
+            const allPerkAddresses = data.value.map((item) => {
+                return item.pubkey.toString()
+            })
+
+            console.log('allPerkAddresses', allPerkAddresses)
+            for(let i = 0; i < allPerkAddresses.length; i++){
+                const perk = await connection.getParsedAccountInfo(
+                    new PublicKey(allPerkAddresses[i])
+                )
+                console.log('perk', perk)
+                const json = await perk.value.data.parsed.info.data
+                console.log('json', json)
+                const attributes = await json.json
+                console.log('attributes', attributes)
+                allPerks.push({
+                    'perkAddress': allPerkAddresses[i],
+                    'attributes': attributes
+                })
+            }
+            console.log('allPerks', allPerks)
+        }
+
+        const getPerks = async () => {
+            const allPerks = await getPerkList()
+            console.log('allPerks', allPerks)
+            setPerkList(allPerks)
+
+        }
+        getPerks()
+    }, [])
+
 
 
     // If the user's wallet address = venueWalletAddress, then they have the ability to airdrop Free Popcorn and Free Drinks to anyone on the list of users who have purchased tickets to the event.
