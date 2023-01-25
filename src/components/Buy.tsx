@@ -1,5 +1,6 @@
 import { FC, useEffect, useState, useMemo } from "react";
 import Button from "./Utils/Button";
+import { notify } from "../utils/notifications";
 import {
   Keypair,
   Transaction,
@@ -148,7 +149,7 @@ export default function Buy({ buyer, price, token, owner, ticketAddress }) {
       return () => {
         setLoading(false);
         clearInterval(interval);
-        alert("Payment Recieved! Sending Ticket...");
+        notify({ type: 'success', message: 'Payment Received! Sending Ticket', orderid: orderID.toString() });
       };
     }
 
@@ -180,7 +181,7 @@ export default function Buy({ buyer, price, token, owner, ticketAddress }) {
       return () => {
         setLoading(false);
         clearInterval(interval);
-        alert("Ticket Sent!");
+        notify({ type: 'success', message: 'Ticket Sent!', orderid: orderID.toString()});
       };
     }
     if (status === STATUS.Fulfilled) {

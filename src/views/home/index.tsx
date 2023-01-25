@@ -37,22 +37,55 @@ export const HomeView: FC = ({}) => {
               src="/logoGrBg.svg"
               alt="logo"
             /> */}
-          <h1>Buy and Sell tickets with transparency on the Blockchain.</h1>
+          <h1>Buy and Sell tickets with transparency on Solana</h1>
           <p>
             {/* Events use NFTickets to send upgrades (like free merch) directly to their ticket. <br />
             Buyers can see Ticket sales history and if value is marked up. */}
-            Get a unique experience holding your NFT tickets by attaching upgrades
-            directly to your ticket.
+            <div className={styles.column_container}>
+              <div className={styles.left_column}>
+              <ul>
+                <li><span className={styles.span_green} >✔</span> Ticket Transparency </li>
+                <li><span className={styles.span_green} >✔</span> Ticket Perks </li>
+              </ul>
+              </div>
+              <div className={styles.right_column}>
+                <ul>
+                  <li><span className={styles.span_green} >✔</span> New Event Experience </li>
+                  <li><span className={styles.span_red} >✘</span> Hidden Fees </li>
+                </ul>
+              </div>
+            </div>
           </p>
 
           {!wallet.connected && (
               <div className={styles.hero_button}>
-                <h3>Connect to Solana to Start!</h3>
+                <h3>Connect & Try!</h3>
                 <WalletMultiButton className={styles.connect_button}/>
               </div>
           )}
         </div>
         <div className={styles.hero_video}>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            src="/LandingVideo.mp4"
+          />
+        </div>
+        <div id={"hero_mobile_video"} className={styles.hero_mobile_video}>
+          {/* close button to hide hero_mobile_video */}
+          
+            <button
+              className={styles.close_button}
+              onClick={() => {
+                document.getElementById("hero_mobile_video").style.display =
+                  "none";
+              }}
+            >
+              X
+            </button>
+          
           <video
             autoPlay
             loop

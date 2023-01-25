@@ -29,6 +29,7 @@ const NotificationList = () => {
             message={n.message}
             description={n.description}
             txid={n.txid}
+            orderid={n.orderid}
             onHide={() => {
               setNotificationStore((state: any) => {
                 const reversedIndex = reversedNotifications.length - 1 - idx;
@@ -45,7 +46,7 @@ const NotificationList = () => {
   );
 }
 
-const Notification = ({ type, message, description, txid, onHide }) => {
+const Notification = ({ type, message, description, txid, onHide, orderid }) => {
   const { connection } = useConnection();
   const { networkConfiguration } = useNetworkConfiguration();
 
@@ -66,7 +67,7 @@ const Notification = ({ type, message, description, txid, onHide }) => {
 
   return (
     <div
-      className={`max-w-sm w-full bg-bkg-1 shadow-lg rounded-md mt-2 pointer-events-auto ring-1 ring-black ring-opacity-5 p-2 mx-4 mb-12 overflow-hidden`}
+      className={`max-w-sm w-full bg-slate-400 shadow-lg rounded-md mt-2 pointer-events-auto ring-1 ring-black ring-opacity-5 p-2 mx-4 mb-12 overflow-hidden`}
     >
       <div className={`p-4`}>
         <div className={`flex items-center`}>
@@ -98,6 +99,22 @@ const Notification = ({ type, message, description, txid, onHide }) => {
                   <svg className="flex-shrink-0 h-4 ml-2 mt-0.5 text-primary-light w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" ><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                   <div className="flex mx-4">{txid.slice(0, 8)}...
                     {txid.slice(txid.length - 8)}
+                  </div>
+                </a>
+              </div>
+            ) : null}
+            {orderid ?(
+              <div className="flex flex-row">
+         
+                <a
+                  href={'https://explorer.solana.com/address/' + orderid + `?cluster=${networkConfiguration}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex flex-row link link-accent"
+                >
+                  <svg className="flex-shrink-0 h-4 ml-2 mt-0.5 text-primary-light w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" ><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                  <div className="flex mx-4">{orderid.slice(0, 8)}...
+                    {orderid.slice(orderid.length - 8)}
                   </div>
                 </a>
               </div>

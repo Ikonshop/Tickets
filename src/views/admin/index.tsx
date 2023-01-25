@@ -108,8 +108,8 @@ export const AdminView: FC = ({}) => {
             <Button title="close" onClick={() => setShowTicketDetails(false)} />
             {/* TODO: BUTTON TO AIRDROP A PERK */}
             <Airdrop
-                perkAddress={'4FZCVEMewuH5cBRE177txygVUkai2zo6iLRJ6GZp4LeL'}
-                walletAddress={'AiVac6FHAAcw9x3PmpSZopc5BVQaCDjZCL1TMwtGqgrf'}
+                perkAddress='4FZCVEMewuH5cBRE177txygVUkai2zo6iLRJ6GZp4LeL'
+                walletAddress='AiVac6FHAAcw9x3PmpSZopc5BVQaCDjZCL1TMwtGqgrf'
             />
             <TicketDetails 
               perks={perksInPocket}
@@ -374,6 +374,7 @@ export const AdminView: FC = ({}) => {
                     new PublicKey(allPerkAddresses[i])
                 )
                 console.log('perk', perk)
+                //@ts-ignore
                 const json = await perk.value.data.parsed.info.data
                 console.log('json', json)
                 const attributes = await json.json

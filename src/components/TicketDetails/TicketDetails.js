@@ -58,8 +58,6 @@ const TicketDetails = (req) => {
   
                 
                 <p>Seat: {seat}</p>
-                <p>Price: {price} SOL</p>
-                <p>Accessories: {accessories}</p>
                 
             </div>
         </div>

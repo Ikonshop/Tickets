@@ -1,6 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
+import { Connection } from "@solana/web3.js"
 import VenueRender from "./Venue/VenueRender"
 import styles from "../styles/custom.module.css"
 
@@ -8,7 +9,8 @@ export const FetchNft: FC = () => {
   const [nftData, setNftData] = useState(null)
   const [spaceStadiumVenue, setSpaceStadiumVenue] = useState(null)
   const { connection } = useConnection()
-  const wallet = useWallet()
+  const endpoint = "https://api.devnet.solana.com"
+  const wallet = useWallet()  
   const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet))
 
   const fetchNfts = async () => {
@@ -17,7 +19,7 @@ export const FetchNft: FC = () => {
     }
     
     //Wallet address to fetch NFTs from
-    const fetchWallet = 'AKMpGNrueQR97mwKy8CMUK1tTF2peVmPPAnzR8D9JjcE'
+    const fetchWallet = 'DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ'
 
     const nfts = await metaplex
       .nfts()

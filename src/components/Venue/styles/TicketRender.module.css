@@ -3,8 +3,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    font-size: .8rem;
+    width: 20vw;
+    height: fit-content;
     border-radius: 10px;
     background-color: rgba(89, 65, 100, 0.434);
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -20,9 +21,9 @@
     transform: scale(1.05);
 }
 
-.single_ticket .ticket_image{
+.ticket_img_container{
     width: 100%;
-    height: 100%;
+    height: 40vh;
     object-fit: cover;
     position: absolute;
     top: 0;
@@ -38,23 +39,49 @@
 .venue_name{
     font-size: .8rem;
     font-weight: 600;
-    margin-bottom: 10px;
+    background-color: rgb(207, 8, 229);
+    opacity: .6;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 30px;
 }
 
 .seat_number{
-    font-size: 1rem;
+    font-size: .6rem;
     font-weight: 500;
-    margin-bottom: 10px;
-    background-color: antiquewhite;
-    color: red;
+    background-color: rgb(207, 8, 229);
+
+    color: white;
     padding-left: 15px;
     padding-right: 15px;
     border-radius: 30px;
 }
 
 .event_name{
-
-    font-size: fit-content;
+    font-size: .6rem;
     font-weight: 500;
-    margin-bottom: 10px;
+    background-color: rgb(207, 8, 229);
+    opacity: .6;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 30px;
+}
+
+.single_ticket > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #352f57;
+    color: white;
+    font-size: .8rem;
+    font-weight: 600;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }

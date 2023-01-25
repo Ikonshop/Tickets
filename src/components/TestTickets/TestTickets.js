@@ -49,7 +49,7 @@ export const TestTickets= () => {
                 }
             }   
             // set testTickets state to the first 3 objects in nftData
-            setTestTickets(nftData.slice(0,3))
+            setTestTickets(nftData.slice(0,6))
             // console.log('testTickets', nftData)
             setLoading(false)
             console.log('testTickets', testTickets)
@@ -60,7 +60,10 @@ export const TestTickets= () => {
 
     return (
         // Map out the testTickets in  a row of 3 with each object in the array as it's own card
-        <div className={styles.testTickets}>
+        <div className={styles.ticket_container}>
+            <h1>Buy Ticket {'->'} Airdrop Perk</h1>
+            <div className={styles.testTickets}>
+            
             {!loading && testTickets && testTickets.map((ticket, index) => (
                 <div className={styles.testTicketCard} key={index}>
                     <img src={ticket.image} alt={ticket.name} />
@@ -84,5 +87,7 @@ export const TestTickets= () => {
                 </div>
             ))}
         </div>
+        </div>
+        
     )
 }

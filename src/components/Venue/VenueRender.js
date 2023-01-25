@@ -40,12 +40,11 @@ const VenueRender = ({ id, event, title, venue }) => {
     , [venue]);
 
     return (
-        <div className={styles.venue_containter}>
+        <div style={{color: "black", cursor:"pointer", display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridGap: '1rem', alignItems: 'center', justifyContent: 'center'}}>
             
             <div 
-                // className={styles.venue_img_container}
+                style={{display: showTickets ? 'none' : 'grid'}}
                 onClick={() => setShowTickets(!showTickets)}
-                style={{color: "black", cursor:"pointer", display: showTickets ? 'none' : 'block'}}
             >
                 <div className={styles.venue_name}>
                     Event: {event}
