@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { FC, useState, useEffect } from "react"
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {AllTickets} from "../../components/TicketDetails/AllTickets"
