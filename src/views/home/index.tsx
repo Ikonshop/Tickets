@@ -37,7 +37,7 @@ export const HomeView: FC = ({}) => {
               src="/logoGrBg.svg"
               alt="logo"
             /> */}
-          <h1>Buy and Sell tickets with transparency on Solana</h1>
+          <h1>A Transparent Ticketing Platform</h1>
           <p>
             {/* Events use NFTickets to send upgrades (like free merch) directly to their ticket. <br />
             Buyers can see Ticket sales history and if value is marked up. */}
@@ -58,10 +58,21 @@ export const HomeView: FC = ({}) => {
           </p>
 
           {!wallet.connected && (
+            <>
+              <h3
+                style={{
+                  color: "rgb(128, 0, 255)",
+                  fontSize: "1.5rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Connect & Try!
+              </h3>
               <div className={styles.hero_button}>
-                <h3>Connect & Try!</h3>
+                
                 <WalletMultiButton className={styles.connect_button}/>
               </div>
+            </>
           )}
         </div>
         <div className={styles.hero_video}>

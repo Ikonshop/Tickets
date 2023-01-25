@@ -21,6 +21,11 @@ export const ContentContainer: FC = (props) => {
               <a>My Pocket</a>
             </Link>
           </li>
+          <li>
+            <Link href="/admin">
+              <a>Admin</a>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

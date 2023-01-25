@@ -176,7 +176,7 @@
 }
 
 .span_green{
-  color: rgb(2, 207, 2);
+  color: green;
 }
 
 .column_container{
@@ -225,7 +225,8 @@
   .close_button{
     display: flex;
     position: absolute;
-    top: 25%;
+    color: red;
+    top: 25vh;
     right: 85%;
     flex-direction: column;
     justify-content: center;
@@ -239,14 +240,14 @@
   .hero_group {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: left;
   }
 
   .hero_text{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
     text-overflow: wrap;
   }
   .hero_group h1 {
