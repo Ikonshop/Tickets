@@ -167,9 +167,9 @@ export const AdminView: FC = ({}) => {
                         headers={["Owner Wallet", "Ticket Address", "Seat Number"]} 
                         rows={
                             allTix.map((tix) => {
-                                var temp = tix.slice(0, -1)
+                             
 
-                                return Object.values(temp)
+                                return Object.values(tix)
                             })
                         }
                         onClick={(row) => {
