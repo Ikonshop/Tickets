@@ -184,5 +184,5 @@ export default function Airdrop({ perkAddress, walletAddress }) {
       setLoading(false);
     }
   }, [status]);
-  return <Button title="Buy" onClick={processTransaction} disabled={loading} />;
+  return <Button title="Airdrop a Perk" onClick={processTransaction} disabled={loading} />;
 }
