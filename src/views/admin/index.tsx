@@ -14,7 +14,7 @@ import Loading from "components/Utils/Loading"
 import getNftInfo from "hooks/getNftInfo"
 
 export const AdminView: FC = ({}) => {
-    // const distro = process.env.NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS;
+    const distro = 'DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ';
     const distroKey = new PublicKey('DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ');
     const [venueWalletAddress, setVenueWalletAddress] = useState<string>('');
     const [eventWalletAddress, setEventWalletAddress] = useState<string>('');
@@ -190,10 +190,6 @@ export const AdminView: FC = ({}) => {
     }
 
     const renderSoldTicketsTable = () => {
-        console.log('sold tickets', soldTickets)
-        console.log('sold tickets.allAttributes', soldTickets[0].allAttributes[0]) //[{trait_type: "Venue" value: "Space"}, {trait_type: "Event" value: "Stud"}]
-
-        console.log('sold tickets.allAttributes', soldTickets[0].allAttributes[0][0].value)
 
         //remove the first element in each object in the array
         var soldTix = []
