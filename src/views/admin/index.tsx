@@ -14,8 +14,8 @@ import Loading from "components/Utils/Loading"
 import getNftInfo from "hooks/getNftInfo"
 
 export const AdminView: FC = ({}) => {
-    const distro = process.env.NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS;
-    const distroKey = new PublicKey(distro);
+    // const distro = process.env.NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS;
+    const distroKey = new PublicKey('DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ');
     const [venueWalletAddress, setVenueWalletAddress] = useState<string>('');
     const [eventWalletAddress, setEventWalletAddress] = useState<string>('');
     const [viewAllTickets, setViewAllTickets] = useState<boolean>(false);
