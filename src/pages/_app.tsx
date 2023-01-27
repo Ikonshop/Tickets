@@ -14,7 +14,31 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     return (
         <>
           <Head>
-            <title>Sol Tickets</title>
+            <title>SOL•TIX | transparent ticketing</title>
+            <link rel="icon" href="/SOLTIX.png" />
+            <meta name="title" content="SolTix.xyz" />
+            <meta
+              name="description"
+              content="a transparent ticketing system built on the Solana blockchain"
+            />
+
+            {/* Facebook */}
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="IkonShop.io" />
+            <meta
+              property="og:description"
+              content="a transparent ticketing system built on the Solana blockchain"
+            />
+            <meta property="og:image" content="/SOLTIX.png" />
+
+            {/* Twitter */}
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:title" content="SolTix.xyz" />
+            <meta
+              property="twitter:description"
+              content="a transparent ticketing system built on the Solana blockchain"
+            />
+            <meta property="twitter:image" content="/SOLTIX.png" />
           </Head>
 
           <ContextProvider>
