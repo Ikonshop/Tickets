@@ -30,7 +30,7 @@ export const AdminView: FC = ({}) => {
     const [ticketAddress, setTicketAddress] = useState(null)
     const [ticketOwner, setTicketOwner] = useState(null)
     const [perkList, setPerkList] = useState(null)
-
+    const { publickey } = useWallet();
     const endpoint = "https://solana-devnet.g.alchemy.com/v2/Yn1LR558RcFTubSO2xTjcCTIEHeQIl8R";
     const connection = new Connection("https://api.devnet.solana.com", "confirmed");
     // const connection = new Connection(
@@ -109,8 +109,9 @@ export const AdminView: FC = ({}) => {
             <Button title="close" onClick={() => setShowTicketDetails(false)} />
             {/* TODO: BUTTON TO AIRDROP A PERK */}
             <Airdrop
-                perkAddress='4FZCVEMewuH5cBRE177txygVUkai2zo6iLRJ6GZp4LeL'
-                walletAddress='AiVac6FHAAcw9x3PmpSZopc5BVQaCDjZCL1TMwtGqgrf'
+                perkAddress='9USPFsW9hsWDqU5gWcjHNiTt6fp9EQoZ3X1k38MKnPzk'
+                walletAddress='DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ'
+                connectedWallet={publickey}
             />
             <TicketDetails 
               perks={perksInPocket}
@@ -134,23 +135,23 @@ export const AdminView: FC = ({}) => {
 
     const renderAllTicketsTable = () => {
         var allTix = []
-        console.log('allTix', allTix)
+        console.log('allTix', allTixMintInfo)
 
-            for (let i = 0; i < allTix.length; i++) {
+            for (let i = 0; i < allTixMintInfo.length; i++) {
                 var tempAttributes = [
-                    `Venue: ${allTix[i].attributes[0].value}`,
-                    `Event: ${allTix[i].attributes[1].value}`,
-                    `Seat: ${allTix[i].attributes[2].value}`,
-                    `Price: ${allTix[i].attributes[3].value}`,
-                    `Accessories: ${allTix[i].attributes[4].value}`,
-                    `Date: ${allTix[i].attributes[5].value}`,
-                    `Time: ${allTix[i].attributes[6].value}`,
+                    `Venue: ${allTixMintInfo[i].allAttributes[0][0].value}`,
+                    `Event: ${allTixMintInfo[i].allAttributes[0][1].value}`,
+                    `Seat: ${allTixMintInfo[i].allAttributes[0][2].value}`,
+                    `Price: ${allTixMintInfo[i].allAttributes[0][3].value}`,
+                    `Accessories: ${allTixMintInfo[i].allAttributes[0][4].value}`,
+                    `Date: ${allTixMintInfo[i].allAttributes[0][5].value}`,
+                    `Time: ${allTixMintInfo[i].allAttributes[0][6].value}`,
                 ]
 
                 var tempTix = {
-                    'wallet' : allTix[i].owner,
-                    'ticket' : allTix[i].address,
-                    'seat' : allTix[i].seat,
+                    'wallet' : allTixMintInfo[i].wallet,
+                    'ticket' : allTixMintInfo[i].ticket,
+                    'seat' : allTixMintInfo[i].seat,
                     'attributes' : tempAttributes
                 }
 
@@ -158,8 +159,8 @@ export const AdminView: FC = ({}) => {
 
             }
         
-            if(allTixMintInfo){
-                console.log('all tickets', allTixMintInfo)
+            if(allTix.length > 0){
+                console.log('all tickets', allTix)
             return (
                 <div className="flex flex-col">
                     {/* <Table headers={["Ticket Mint Address", "Ticket Owner"]} rows={allTickets} onClick={(row) => {}} /> */}
@@ -167,21 +168,16 @@ export const AdminView: FC = ({}) => {
                         headers={["Owner Wallet", "Ticket Address", "Seat Number"]} 
                         rows={
                             allTix.map((tix) => {
-                             
-
-                                return Object.values(tix)
+                                var temp = [tix.wallet, tix.ticket, tix.seat]
+                                return Object.values(temp)
                             })
                         }
                         onClick={(row) => {
                             console.log('row', row)
-                            const owner = row[0]
-                            const ticketAddress = row[1]
-                            const ticketDetails = allTickets[row[0]]
-                            const ticketAttributes = row[2]
-                            setTicketOwner(owner)
-                            setTicketAddress(ticketAddress)
-                            setTicketDetails(ticketDetails)
-                            
+                            setLoading(true)
+                            //set the ticket address from the row (2nd column)
+                            setSelectedTicket(row[1]) 
+                            setShowTicketDetails(true)
                         }}
                         />
                 </div>
@@ -349,49 +345,49 @@ export const AdminView: FC = ({}) => {
     }, [selectedTicket])
 
     //create a useEffect that will fetch the list of tokens in teh NEXT_PUBLIC_SOLTIX_DISTRO_ADDRESS wallet and grab the Mint Addresses of the tokens that belong to the NEXT_PUBLIC_PERK_COLLECTION_ADDRESS collection
-    useEffect(() => {
-        const allPerks = []
-        const getPerkList = async () => {
+    // useEffect(() => {
+    //     const allPerks = []
+    //     const getPerkList = async () => {
             
-            const program = new PublicKey(process.env.NEXT_PUBLIC_PERK_COLLECTION_ADDRESS)
-            const data = await connection.getTokenAccountsByOwner(
-                distroKey,
-                {
-                    mint: program
-                }
-            )
-            console.log ('data from getParsedTokenAccountsByOwner', data.value)
-            const allPerkAddresses = data.value.map((item) => {
-                return item.pubkey.toString()
-            })
+    //         const program = new PublicKey(process.env.NEXT_PUBLIC_PERK_COLLECTION_ADDRESS)
+    //         const data = await connection.getTokenAccountsByOwner(
+    //             distroKey,
+    //             {
+    //                 mint: program
+    //             }
+    //         )
+    //         console.log ('data from getParsedTokenAccountsByOwner', data.value)
+    //         const allPerkAddresses = data.value.map((item) => {
+    //             return item.pubkey.toString()
+    //         })
 
-            console.log('allPerkAddresses', allPerkAddresses)
-            for(let i = 0; i < allPerkAddresses.length; i++){
-                const perk = await connection.getParsedAccountInfo(
-                    new PublicKey(allPerkAddresses[i])
-                )
-                console.log('perk', perk)
-                //@ts-ignore
-                const json = await perk.value.data.parsed.info.data
-                console.log('json', json)
-                const attributes = await json.json
-                console.log('attributes', attributes)
-                allPerks.push({
-                    'perkAddress': allPerkAddresses[i],
-                    'attributes': attributes
-                })
-            }
-            console.log('allPerks', allPerks)
-        }
+    //         console.log('allPerkAddresses', allPerkAddresses)
+    //         for(let i = 0; i < allPerkAddresses.length; i++){
+    //             const perk = await connection.getParsedAccountInfo(
+    //                 new PublicKey(allPerkAddresses[i])
+    //             )
+    //             console.log('perk', perk)
+    //             //@ts-ignore
+    //             const json = await perk.value.data.parsed.info.data
+    //             console.log('json', json)
+    //             const attributes = await json.json
+    //             console.log('attributes', attributes)
+    //             allPerks.push({
+    //                 'perkAddress': allPerkAddresses[i],
+    //                 'attributes': attributes
+    //             })
+    //         }
+    //         console.log('allPerks', allPerks)
+    //     }
 
-        const getPerks = async () => {
-            const allPerks = await getPerkList()
-            console.log('allPerks', allPerks)
-            setPerkList(allPerks)
+    //     const getPerks = async () => {
+    //         const allPerks = await getPerkList()
+    //         console.log('allPerks', allPerks)
+    //         setPerkList(allPerks)
 
-        }
-        getPerks()
-    }, [])
+    //     }
+    //     getPerks()
+    // }, [])
 
 
 

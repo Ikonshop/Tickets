@@ -23,7 +23,7 @@ const STATUS = {
   Fulfilled: "Fulfilled",
 };
 
-export default function Airdrop({ perkAddress, walletAddress }) {
+export default function Airdrop({ perkAddress, walletAddress, connectedWallet }) {
   const { publicKey, sendTransaction } = useWallet();
   const orderID = useMemo(() => Keypair.generate().publicKey, []);
   const [status, setStatus] = useState(STATUS.Initial); // Tracking transaction status
@@ -39,8 +39,9 @@ export default function Airdrop({ perkAddress, walletAddress }) {
       perkAddress: perkAddress,
       walletAddress: walletAddress,
       orderID: orderID.toString(),
+      connectedWallet: publicKey,
     }),
-    [perkAddress, orderID, walletAddress]
+    [perkAddress, orderID, walletAddress, publicKey]
   );
 
   const processTransaction = async () => {
