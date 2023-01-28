@@ -409,22 +409,28 @@ export const AdminView: FC = ({}) => {
         <div className="md:hero-content flex flex-col">
           {/* CONTENT GOES HERE */}
           {!viewSoldTickets && (
-            <Button
+            <button
               title="View Sold Tickets"
+              style={{color: "black"}}
               onClick={() => {
                 setViewSoldTickets(true);
                 setViewAllTickets(false);
               }}
-            />
+            >
+              View Sold
+            </button>
           )}
           {!viewAllTickets && (
-            <Button
+            <button
               title="View All Tickets"
+              style={{color: "black"}}
               onClick={() => {
                 setViewAllTickets(true);
                 setViewSoldTickets(false);
               }}
-            />
+            >
+              View All
+            </button>
           )}
           {viewSoldTickets && !showTicketDetails && renderSoldTicketsTable()}
           {viewAllTickets && !showTicketDetails && renderAllTicketsTable()}

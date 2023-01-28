@@ -86,4 +86,5 @@ const Table: React.FC<TableProps> = ({headers, rows, onClick}) => {
 
 
 
+
 export default Table;
