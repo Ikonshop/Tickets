@@ -11,6 +11,15 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { RequestAirdrop } from "../../components/RequestAirdrop";
 import pkg from "../../../package.json";
 
+import {
+  IoArrowBackOutline,
+  IoBarChartOutline,
+  IoDocumentOutline,
+  IoFileTrayFullOutline,
+  IoInformationCircleOutline,
+  IoLinkOutline,
+} from "react-icons/io5";
+
 // Store
 import useUserSOLBalanceStore from "../../stores/useUserSOLBalanceStore";
 
@@ -28,30 +37,56 @@ export const HomeView: FC = ({}) => {
     }
   }, [wallet.publicKey, connection, getUserSOLBalance]);
 
+  const [showElement, setShowElement] = useState(true);
+  useEffect(() => {
+    setTimeout(function () {
+      setShowElement(false);
+    }, 10000);
+  }, []);
+
   return (
     <div className={styles.hero}>
       <div className={styles.hero_group}>
+        {showElement ? (
+          <div className={styles.no_nft_popup}>
+            <div>
+              <img src="/info.gif" />
+              <h5>Hello Anon</h5>
+            </div>
+            <p>
+              Need Devnet SOL? Click the <span>gear icon</span> in the toolbar.
+            </p>
+          </div>
+        ) : (
+          <div></div>
+        )}
         <div className={styles.hero_text}>
-          {/* <img
-              className="inline-block w-80 h-40 mr-2"
-              src="/logoGrBg.svg"
-              alt="logo"
-            /> */}
-          <h1>A Transparent Ticketing Platform</h1>
+          <img className={styles.bg_overlay} src="/bg_overlay.png" />
+          <h1>A Transparent Ticketing Platform.</h1>
+          <p>Buy and Sell tickets with transparency on the Blockchain.</p>
+
           <p>
-            {/* Events use NFTickets to send upgrades (like free merch) directly to their ticket. <br />
-            Buyers can see Ticket sales history and if value is marked up. */}
             <div className={styles.column_container}>
               <div className={styles.left_column}>
-              <ul>
-                <li><span className={styles.span_green} >✔</span> Ticket Transparency </li>
-                <li><span className={styles.span_green} >✔</span> Ticket Perks </li>
-              </ul>
+                <ul>
+                  <li>
+                    <span className={styles.span_green}>✔</span> Ticket
+                    Transparency{" "}
+                  </li>
+                  <li>
+                    <span className={styles.span_green}>✔</span> Ticket Perks{" "}
+                  </li>
+                </ul>
               </div>
               <div className={styles.right_column}>
                 <ul>
-                  <li><span className={styles.span_green} >✔</span> New Event Experience </li>
-                  <li><span className={styles.span_red} >✘</span> Hidden Fees </li>
+                  <li>
+                    <span className={styles.span_green}>✔</span> New Event
+                    Experience{" "}
+                  </li>
+                  <li>
+                    <span className={styles.span_red}>✘</span> Hidden Fees{" "}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -59,7 +94,7 @@ export const HomeView: FC = ({}) => {
 
           {!wallet.connected && (
             <>
-              <h3
+              {/* <h3
                 style={{
                   color: "rgb(128, 0, 255)",
                   fontSize: "1.5rem",
@@ -67,15 +102,27 @@ export const HomeView: FC = ({}) => {
                 }}
               >
                 Connect & Try!
-              </h3>
+              </h3> */}
               <div className={styles.hero_button}>
-                
-                <WalletMultiButton className={styles.connect_button}/>
+                <WalletMultiButton className={styles.connect_button} />
               </div>
             </>
           )}
+          {wallet.connected && (
+            <Link href="/events">
+              <div className={styles.hero_button}>
+                <button className={styles.discover_button}>
+                  Discover Events
+                </button>
+              </div>
+            </Link>
+          )}
         </div>
-        <div className={styles.hero_video}>
+        <div className={styles.hero_row2}>
+          <img src="/hero_bg.png" />
+        </div>
+
+        {/* <div className={styles.hero_video}>
           <video
             autoPlay
             loop
@@ -85,7 +132,7 @@ export const HomeView: FC = ({}) => {
           />
         </div>
         <div id={"hero_mobile_video"} className={styles.hero_mobile_video}>
-          {/* close button to hide hero_mobile_video */}
+         
           
             <button
               className={styles.close_button}
@@ -104,17 +151,23 @@ export const HomeView: FC = ({}) => {
             playsInline
             src="/LandingVideo.mp4"
           />
+        </div> */}
+      </div>
+      <div
+        data-tf-sidetab="yIG54kJf"
+        data-tf-opacity="100"
+        data-tf-iframe-props="title=Sol Tix Venue Form"
+        data-tf-transitive-search-params
+        data-tf-button-color="#BB10EF"
+        data-tf-button-text="Add an Event/Venue."
+        style={{ all: "unset" }}
+      ></div>
+      <script src="//embed.typeform.com/next/embed.js"></script>{" "}
+      {/* {wallet.connected ? (
+        <div>
+          <TestTickets />
         </div>
-        
-        <div data-tf-sidetab="yIG54kJf" data-tf-opacity="100" data-tf-iframe-props="title=Sol Tix Venue Form" data-tf-transitive-search-params data-tf-button-color="#BB10EF" data-tf-button-text="Event or Venue? Click." style={{all:"unset"}}></div><script src="//embed.typeform.com/next/embed.js"></script>        </div>
-        {wallet.connected ? 
-        (
-          <div>
-            <TestTickets />
-          </div>
-        ) : (
-          null
-        )}
+      ) : null} */}
     </div>
   );
 };

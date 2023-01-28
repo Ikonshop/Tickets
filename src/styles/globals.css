@@ -27,3 +27,23 @@ a {
 img {
   width: 250px;
 }
+
+.navbar {
+  height: 80px;
+  color: #000;
+}
+
+.navbar-end {
+  gap: 50px;
+  margin-right: 30px;
+}
+
+.test_funds {
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+}
+
+.upcoming_h1 {
+  color: #352f57;
+}
