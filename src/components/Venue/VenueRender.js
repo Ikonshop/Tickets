@@ -4,7 +4,11 @@ import Button from "components/Utils/Button";
 import styles from "./styles/VenueRender.module.css";
 import { useWallet } from "@solana/wallet-adapter-react";
 import ConnectWallet from "components/Utils/NotConnected";
-import { IoLocationOutline, IoArrowForwardOutline } from "react-icons/io5";
+import {
+  IoLocationOutline,
+  IoArrowForwardOutline,
+  IoArrowBackOutline,
+} from "react-icons/io5";
 
 const VenueRender = ({ id, event, title, venue }) => {
   const [venueData, setVenueData] = useState(null);
@@ -18,16 +22,16 @@ const VenueRender = ({ id, event, title, venue }) => {
         <div>
           {!wallet.publicKey && <ConnectWallet />}
           <div className={styles.button_container}>
-            <Button
-              title="Close"
-              onClick={() => setShowTickets(!showTickets)}
-            />
+            <IoArrowBackOutline />
+            <Button title="Back" onClick={() => setShowTickets(!showTickets)} />
           </div>
 
-          <div className={styles.ticket_viewer}>
-            {venueData?.map((ticket, index) => (
-              <TicketRender key={index} ticket={ticket} />
-            ))}
+          <div className={styles.no_wallet}>
+            <div className={styles.ticket_viewer}>
+              {venueData?.map((ticket, index) => (
+                <TicketRender key={index} ticket={ticket} />
+              ))}
+            </div>
           </div>
         </div>
       );
@@ -46,16 +50,16 @@ const VenueRender = ({ id, event, title, venue }) => {
       style={{
         color: "black",
         cursor: "pointer",
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gridGap: "1rem",
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "30px",
         alignItems: "center",
         justifyContent: "center",
         marginTop: "30px",
       }}
     >
       <div
-        style={{ display: showTickets ? "none" : "grid" }}
+        style={{ display: showTickets ? "none" : "flex" }}
         onClick={() => setShowTickets(!showTickets)}
       >
         <div className={styles.venue_card}>

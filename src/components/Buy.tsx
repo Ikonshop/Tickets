@@ -149,7 +149,11 @@ export default function Buy({ buyer, price, token, owner, ticketAddress }) {
       return () => {
         setLoading(false);
         clearInterval(interval);
-        notify({ type: 'success', message: 'Payment Received! Sending Ticket', orderid: orderID.toString() });
+        notify({
+          type: "success",
+          message: "Payment Received! Sending Ticket",
+          orderid: orderID.toString(),
+        });
       };
     }
 
@@ -181,7 +185,11 @@ export default function Buy({ buyer, price, token, owner, ticketAddress }) {
       return () => {
         setLoading(false);
         clearInterval(interval);
-        notify({ type: 'success', message: 'Ticket Sent!', orderid: orderID.toString()});
+        notify({
+          type: "success",
+          message: "Ticket Sent!",
+          orderid: orderID.toString(),
+        });
       };
     }
     if (status === STATUS.Fulfilled) {

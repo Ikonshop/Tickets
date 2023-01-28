@@ -117,7 +117,7 @@ export const AppBar: FC = (props) => {
         </div>
 
         {/* Wallet & Settings */}
-        <div className="navbar-end">
+        <div className="hidden md:flex navbar-end">
           {/* Nav Links */}
 
           <Link href="/">
@@ -166,9 +166,18 @@ export const AppBar: FC = (props) => {
                   <label className="cursor-pointer label">
                     {wallet && (
                       <>
-                        <p>SOL Balance: {(balance || 0).toLocaleString()}</p>
-                        <p># of NFTix: {(ticketCount || 0).toLocaleString()}</p>
-                        <p># of Perks: {(perkCount || 0).toLocaleString()}</p>
+                        <div>
+                          <p>SOL Balance:</p>{" "}
+                          <p>{(balance || 0).toLocaleString()}</p>
+                        </div>
+                        <div>
+                          <p># of NFTix:</p>
+                          <p>{(ticketCount || 0).toLocaleString()}</p>
+                        </div>
+                        <div>
+                          <p># of Perks:</p>
+                          <p>{(perkCount || 0).toLocaleString()}</p>
+                        </div>
                       </>
                     )}
                   </label>

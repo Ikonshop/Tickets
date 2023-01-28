@@ -63,3 +63,21 @@
   font-size: 18px;
   margin-top: 5px;
 }
+
+.no_wallet {
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.button_container {
+  position: absolute;
+  top: 200px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

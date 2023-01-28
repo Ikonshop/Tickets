@@ -57,26 +57,34 @@ const TicketRender = ({ index, ticket }) => {
     //   />
     // </div>
     <div className={styles.single_ticket}>
-        {/* <div className={styles.venue_name}>
+      {/* <div className={styles.venue_name}>
             Venue: {venue}
         </div> */}
-        <div className={styles.ticket_img_container}>
-            <img className={styles.ticket_img} src={ticketImg} alt={ticketData?.name} />
-        </div>
-        {/* <div className={styles.event_name}>
+      <div className={styles.ticket_img_container}>
+        <img
+          className={styles.ticket_img}
+          src={ticketImg}
+          alt={ticketData?.name}
+        />
+      </div>
+      {/* <div className={styles.event_name}>
             {event}
         </div> */}
-        <div className={styles.seat_number}>
-            Seat # {seat_number}<br />
-            Price: {price} SOL
+      <div className={styles.seat_number}>
+        <div>
+          <p> Seat:</p> <p>#{seat_number}</p>
         </div>
-        <Buy
-            ticketAddress={ticket.mintaddress}
-            buyer={wallet.publicKey?.toString()}
-            token="SOL"
-            price={ticket.attributes[3].value}
-            owner={fetchWallet}
-        />
+        <div>
+          <p>Price:</p> <p>{price} SOL</p>
+        </div>
+      </div>
+      <Buy
+        ticketAddress={ticket.mintaddress}
+        buyer={wallet.publicKey?.toString()}
+        token="SOL"
+        price={ticket.attributes[3].value}
+        owner={fetchWallet}
+      />
     </div>
   );
 };

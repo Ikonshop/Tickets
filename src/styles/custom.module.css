@@ -224,9 +224,6 @@
 }
 
 .discover_button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
   color: white;
   border: none;
   border-radius: 50px;
@@ -235,7 +232,6 @@
   font-family: "Hanken Grotesk";
   width: 200px !important;
   background: #695cff;
-  padding-top: 15px;
   transition: 0.3s;
 }
 

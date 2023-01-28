@@ -30,6 +30,9 @@ img {
 
 .navbar {
   height: 80px;
+}
+
+.navbar .btn {
   color: #000;
 }
 
@@ -46,4 +49,73 @@ img {
 
 .upcoming_h1 {
   color: #352f57;
+}
+
+.no_wallet {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.no_wallet h1 {
+  font-family: "Epilogue";
+}
+
+.no_wallet p,
+.no_wallet a {
+  font-family: "Hanken Grotesk";
+}
+
+.no_wallet a {
+  margin-top: 10px;
+}
+
+.connect_button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  height: 60px;
+  font-weight: 300;
+  width: 200px !important;
+  width: fit-content;
+  background: #695cff;
+  margin-top: 30px;
+}
+
+.cursor-pointer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cursor-pointer div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.discover_button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  height: 60px;
+  font-weight: 600;
+  font-family: "Hanken Grotesk";
+  width: 200px !important;
+  background: #695cff;
+  padding-top: 15px;
+  transition: 0.3s;
 }
