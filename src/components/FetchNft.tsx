@@ -3,11 +3,13 @@ import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundati
 import { FC, useEffect, useState } from "react"
 import { Connection } from "@solana/web3.js"
 import VenueRender from "./Venue/VenueRender"
+import Loading from "./Utils/Loading"
 import styles from "../styles/custom.module.css"
 
 export const FetchNft: FC = () => {
   const [nftData, setNftData] = useState(null)
   const [spaceStadiumVenue, setSpaceStadiumVenue] = useState(null)
+  const [loading, setLoading] = useState(true)
   const { connection } = useConnection()
   const endpoint = "https://api.devnet.solana.com"
   const wallet = useWallet()  
@@ -47,7 +49,7 @@ export const FetchNft: FC = () => {
     const spaceStadiumVenueSortedBySeats = spaceStadiumVenue.sort((a, b) => a.attributes[1].value - b.attributes[1].value)
     console.log('spaceStadiumVenue', spaceStadiumVenue)
     setSpaceStadiumVenue(spaceStadiumVenueSortedBySeats)
-
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -57,8 +59,8 @@ export const FetchNft: FC = () => {
   return (
     <div>
       {/* Map the Available NFT's in the Ticket Wallet  */}
-      
-      {spaceStadiumVenue && (
+      {loading && <Loading />}
+      {!loading && spaceStadiumVenue && (
         <div className="flex flex-col items-center justify-center">
           {/* TODO: */}
           <VenueRender id="spaceStadium" event="Farza and the boyz" title="Space Stadium" venue={spaceStadiumVenue} />
