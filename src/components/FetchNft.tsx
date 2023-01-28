@@ -12,7 +12,7 @@ export const FetchNft: FC = () => {
   const [spaceStadiumVenue, setSpaceStadiumVenue] = useState(null)
   const [loading, setLoading] = useState(true)
   const { connection } = useConnection()
-  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
+  const endpoint = 'https://solana-devnet.g.alchemy.com/v2/Yn1LR558RcFTubSO2xTjcCTIEHeQIl8R'
   const wallet = useWallet()  
   //use devnet connection for metaplex so user wallet does not need to be connected to devnet
   const metaplex = Metaplex.make(new Connection(endpoint))
