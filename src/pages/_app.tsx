@@ -24,7 +24,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
             {/* Facebook */}
             <meta property="og:type" content="website" />
-            <meta property="og:title" content="IkonShop.io" />
+            <meta property="og:title" content="Sol•Tix" />
             <meta
               property="og:description"
               content="a transparent ticketing system built on the Solana blockchain"
