@@ -9,6 +9,7 @@ import {
   IoArrowForwardOutline,
   IoArrowBackOutline,
 } from "react-icons/io5";
+import { TestTickets } from "components/TestTickets/TestTickets";
 
 const VenueRender = ({ id, event, title, venue }) => {
   const [venueData, setVenueData] = useState(null);
@@ -18,6 +19,7 @@ const VenueRender = ({ id, event, title, venue }) => {
 
   const renderTickets = () => {
     if (showTickets) {
+      console.log('venueData: ', venueData)
       return (
         <div>
           {!wallet.publicKey && <ConnectWallet />}
@@ -28,9 +30,7 @@ const VenueRender = ({ id, event, title, venue }) => {
 
           <div className={styles.no_wallet}>
             <div className={styles.ticket_viewer}>
-              {venueData?.map((ticket, index) => (
-                <TicketRender key={index} ticket={ticket} />
-              ))}
+              <TestTickets />
             </div>
           </div>
         </div>

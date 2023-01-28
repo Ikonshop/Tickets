@@ -1,9 +1,15 @@
 import { FC, useEffect, useState } from "react"
-import styles from "../TestTickets/styles/TestTickets.module.css"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundation/js"
 import { PublicKey } from "@solana/web3.js"
 import Buy from "components/Buy"
+import styles from "../Venue/styles/TicketRender.module.css";
+import {
+    IoLocationOutline,
+    IoArrowForwardOutline,
+    IoArrowBackOutline,
+  } from "react-icons/io5";
+
 
 export const TestTickets= () => {
     const [testTickets, setTestTickets] = useState(null)
@@ -59,36 +65,43 @@ export const TestTickets= () => {
     
 
     return (
-        // Map out the testTickets in  a row of 3 with each object in the array as it's own card
-        <div className={styles.ticket_container}>
-            <h1>Buy Ticket {'->'} Airdrop Perk</h1>
-            <p>Need Devnet SOL? Click the gear icon in the toolbar!</p>
-            <div className={styles.testTickets}>
+    <>
+        {!loading && testTickets && testTickets.map((ticket, index) => (
+
+        <div className={styles.single_ticket}>
+            {/* <div className={styles.venue_name}>
+                    Venue: {venue}
+                </div> */}
             
-            {!loading && testTickets && testTickets.map((ticket, index) => (
-                <div className={styles.testTicketCard} key={index}>
-                    <img src={ticket.image} alt={ticket.name} />
-                    <p>SEAT: {ticket.attributes[2].value}</p>
-                    <p>COST: {ticket.attributes[3].value} SOL</p>
-                    <Buy
-                        ticketAddress={ticket.mintaddress}
-                        buyer={wallet.publicKey?.toString()}
-                        token="SOL"
-                        price={ticket.attributes[3].value}
-                        owner={fetchWallet}
+                <div className={styles.ticket_img_container}>
+                    <img
+                    className={styles.ticket_img}
+                    src={ticket.image}
+                    alt={ticket.name}
                     />
-                    {/* <div className={styles.testTicketInfo}>
-                        <div className={styles.testTicketLeft}>
-                        
-                        </div>
-                        <div className={styles.testTicketRight}>
-                            
-                        </div>
-                    </div> */}
                 </div>
-            ))}
+                {/* <div className={styles.event_name}>
+                        {event}
+                    </div> */}
+                <div className={styles.seat_number}>
+                    <div>
+                    <p> Seat:</p> <p>#{ticket.attributes[2].value}</p>
+                    </div>
+                    <div>
+                    <p>Price:</p> <p>{ticket.attributes[3].value} SOL</p>
+                    </div>
+                </div>
+                <Buy
+                    ticketAddress={ticket.mintaddress}
+                    buyer={wallet.publicKey?.toString()}
+                    token="SOL"
+                    price={ticket.attributes[3].value}
+                    owner={fetchWallet}
+                />            
+  
+          
         </div>
-        </div>
-        
+        ))}
+    </>
     )
 }

@@ -42,7 +42,11 @@ export const FetchCandyMachine: FC = () => {
 
     return (
       <>
-        <Button title="close" onClick={() => setShowTicketDetails(false)} />
+        <Button 
+          title="close" 
+          onClick={() => setShowTicketDetails(false)}
+          className={styles.closeButton}
+        />
         <TicketDetails
           perks={perksInPocket}
           address={nft.address}
@@ -169,7 +173,12 @@ export const FetchCandyMachine: FC = () => {
                 <div className={styles.gridNFT}>
                   {ticketsInPocket.map((nft, index) => (
                     <div key={index}>
-                      <img src={nft.json.image} />
+                      <img 
+                        onClick={() => {
+                          setSelectedTicket(nft), setShowTicketDetails(true);
+                        }}
+                        src={nft.json.image} 
+                      />
                       <Button
                         title="View"
                         onClick={() => {
