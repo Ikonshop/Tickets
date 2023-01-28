@@ -9,10 +9,18 @@ export const Footer: FC = () => {
                     <div>
                         <p className="text-white text-base font-light cursor-default ">
                             Powered by
-                        </p>
+                        </p><a
+                            rel="noreferrer"
+                            href="https://twitter.com/Uncensored_Ugo"
+                            target="_blank"
+                            className="text-white text-base font-bold hover:text-primary-dark transition-all duration-200"
+                        >
+                            @henry
+                        </a>
+                        {" "} & {" "}
                         <a
                             rel="noreferrer"
-                            href="https://mattweichel.vercel.app//"
+                            href="https://twitter.com/topshotturtles/"
                             target="_blank"
                             className="text-white text-base font-bold hover:text-primary-dark transition-all duration-200"
                         >
