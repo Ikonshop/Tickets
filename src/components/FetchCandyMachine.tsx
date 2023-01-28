@@ -42,11 +42,11 @@ export const FetchCandyMachine: FC = () => {
 
     return (
       <>
-        <Button 
+        <button
           title="close" 
           onClick={() => setShowTicketDetails(false)}
-          className={styles.closeButton}
-        />
+          style={{ position: "absolute", top: "0", right: "0" , color: "black"}}
+        >Close</button>
         <TicketDetails
           perks={perksInPocket}
           address={nft.address}
