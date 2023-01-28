@@ -45,7 +45,7 @@ export const FetchCandyMachine: FC = () => {
         <button
           title="close" 
           onClick={() => setShowTicketDetails(false)}
-          style={{ position: "absolute", top: "0", right: "0" , color: "black"}}
+          style={{ color: "black"}}
         >Close</button>
         <TicketDetails
           perks={perksInPocket}
