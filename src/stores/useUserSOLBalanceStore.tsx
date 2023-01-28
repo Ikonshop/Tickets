@@ -26,6 +26,8 @@ const useUserSOLBalanceStore = create<UserSOLBalanceStore>((set, _get) => ({
       s.balance = balance;
       console.log(`balance updated, `, balance);
     })
+    //if balance is 0, alert user to fund their wallet with Devnet SOL in the app bar
+
   },
 }));
 

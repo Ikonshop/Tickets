@@ -62,6 +62,7 @@ export const TestTickets= () => {
         // Map out the testTickets in  a row of 3 with each object in the array as it's own card
         <div className={styles.ticket_container}>
             <h1>Buy Ticket {'->'} Airdrop Perk</h1>
+            <p>Need Devnet SOL? Click the gear icon in the toolbar!</p>
             <div className={styles.testTickets}>
             
             {!loading && testTickets && testTickets.map((ticket, index) => (
