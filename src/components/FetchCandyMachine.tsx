@@ -2,6 +2,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey } from "@solana/web3.js"
 import { Metaplex, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
+import ConnectWallet from "../components/Utils/NotConnected"
 import TicketDetails from "../components/TicketDetails/TicketDetails"
 import Button from "../components/Utils/Button"
 import Loading from "../components/Utils/Loading"
@@ -154,8 +155,9 @@ export const FetchCandyMachine: FC = () => {
 
   return (
     <div>
-      {loading && <Loading />}
-      {ticketsInPocket?.length > 0 && !showTicketDetails && (
+      {!wallet.publicKey && <ConnectWallet />}
+      {wallet.publicKey && loading && <Loading />}
+      {wallet.publicKey  && ticketsInPocket?.length > 0 && !showTicketDetails && (
         <div className={styles.pocketContainer}>
           <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
           What's in your pocket?
@@ -203,7 +205,7 @@ export const FetchCandyMachine: FC = () => {
           </button> */}
         </div>
       )}
-      {ticketsInPocket?.length < 1 && (
+      {wallet.publicKey && ticketsInPocket?.length < 1 && (
 
         <div className="flex flex-col items-center justify-center p-5">
           <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">

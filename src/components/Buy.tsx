@@ -38,7 +38,7 @@ export default function Buy({ buyer, price, token, owner, ticketAddress }) {
   const order = useMemo(
     () => ({
       ticketAddress: ticketAddress,
-      buyer: publicKey.toString(),
+      buyer: publicKey?.toString(),
       orderID: orderID.toString(),
       price: price,
       token: token,

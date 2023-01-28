@@ -2,18 +2,22 @@ import { useState, useEffect } from 'react';
 import TicketRender from './TicketRender';
 import Button from 'components/Utils/Button';
 import styles from './styles/VenueRender.module.css';
+import { useWallet } from '@solana/wallet-adapter-react';
+import ConnectWallet from 'components/Utils/NotConnected';
 
 
 
 const VenueRender = ({ id, event, title, venue }) => {
     const [venueData, setVenueData] = useState(null);
     const [showTickets, setShowTickets] = useState(false);
+    const wallet = useWallet();
     const venueImg = `/${id}.jpg`
 
     const renderTickets = () => {
         if (showTickets) {
             return (
                 <div>
+                    {!wallet.publicKey && <ConnectWallet />}
                     <div className={styles.button_container}>
                             <Button
                                 title='Close'

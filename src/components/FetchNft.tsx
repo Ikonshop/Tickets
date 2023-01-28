@@ -2,6 +2,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Metaplex, walletAdapterIdentity, toPublicKey } from "@metaplex-foundation/js"
 import { FC, useEffect, useState } from "react"
 import { Connection } from "@solana/web3.js"
+import ConnectWallet from "./Utils/NotConnected"
 import VenueRender from "./Venue/VenueRender"
 import Loading from "./Utils/Loading"
 import styles from "../styles/custom.module.css"
@@ -11,14 +12,13 @@ export const FetchNft: FC = () => {
   const [spaceStadiumVenue, setSpaceStadiumVenue] = useState(null)
   const [loading, setLoading] = useState(true)
   const { connection } = useConnection()
-  const endpoint = "https://api.devnet.solana.com"
+  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
   const wallet = useWallet()  
-  const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet))
+  //use devnet connection for metaplex so user wallet does not need to be connected to devnet
+  const metaplex = Metaplex.make(new Connection(endpoint))
 
   const fetchNfts = async () => {
-    if (!wallet.connected) {
-      return
-    }
+    
     
     //Wallet address to fetch NFTs from
     const fetchWallet = 'DF5KvNBJS5o6TMWmwbrjHmdnhBXVkQQNDwAJAcsuRxdJ'
@@ -62,7 +62,6 @@ export const FetchNft: FC = () => {
       {loading && <Loading />}
       {!loading && spaceStadiumVenue && (
         <div className="flex flex-col items-center justify-center">
-          {/* TODO: */}
           <VenueRender id="spaceStadium" event="Farza and the boyz" title="Space Stadium" venue={spaceStadiumVenue} />
           <div className="flex flex-row itemx-center justify-center">
 
